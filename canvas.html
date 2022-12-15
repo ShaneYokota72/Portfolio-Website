@@ -1,0 +1,57 @@
+<!-- HTML to create the input field and img element -->
+<input type="file" id="my-file-input">
+<img id="my-image" src="" alt="">
+
+<!-- JavaScript to handle the image input and manipulate the image -->
+<script>
+  // Get the input field and img element
+  const input = document.getElementById('my-file-input');
+  const img = document.getElementById('my-image');
+
+  // When the user selects a file, load the image
+  input.addEventListener('change', function() {
+    // Get the selected file
+    const file = input.files[0];
+
+    // Create a FileReader object to read the file
+    const reader = new FileReader();
+
+    // When the file has been read...
+    reader.addEventListener('load', function() {
+      // Set the src attribute of the img element to the data URL
+      // of the image
+      img.setAttribute('src', reader.result);
+
+      // Create a canvas element
+      const canvas = document.createElement('canvas');
+
+      // Draw the image on the canvas
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      // Get the pixel data from the canvas
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+
+      // Loop through the pixels and make the edges black
+      for (let i = 0; i < data.length; i += 4) {
+        // If the pixel is on the edge, set its color to black
+        if (i < canvas.width || i > data.length - canvas.width || i % canvas.width === 0 || i % canvas.width === canvas.width - 1) {
+          data[i] = 0;
+          data[i + 1] = 0;
+          data[i + 2] = 0;
+          data[i + 3] = 255;
+        }
+      }
+
+      // Put the modified pixel data back on the canvas
+      ctx.putImageData(imageData, 0, 0);
+
+      // Set the src of the img element to the canvas data URL
+      img.setAttribute('src', canvas.toDataURL());
+    });
+
+    // Read the image file as a data URL
+    reader.readAsDataURL(file);
+  });
+</script>
