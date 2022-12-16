@@ -13,7 +13,6 @@
       <label>Number 3: <input type="number" id="num3"></label><br>
       <button type="button" onclick="findMaxMin()">Find Max and Min</button>
     </form>
-    <p>The maximum value is: <span id="max"></span></p>
     <p>The minimum value is: <span id="min"></span></p>
     <script>
       // Import the web assembly module
@@ -30,7 +29,6 @@
 
         // Update the HTML to display the results
         document.getElementById("max").innerHTML = result.max;
-        document.getElementById("min").innerHTML = result.min;
       }
     </script>
   </body>
