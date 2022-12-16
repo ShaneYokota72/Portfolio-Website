@@ -4,6 +4,26 @@
     <title>Max and Min Finder</title>
   </head>
   <body>
+    <script  type="module" src="wa.js"></script>
+    <script>
+      // Import the web assembly module
+      import * as wasm from "./max_min_finder.wasm";
+
+      function maxfunc() {
+        // Get the three input numbers
+        var num1 = document.getElementById("num1").value;
+        var num2 = document.getElementById("num2").value;
+        var num3 = document.getElementById("num3").value;
+        console.log(num1 + num2 + num3);
+
+        // Use the C++ code in the web assembly to find the maximum and minimum values
+        //var result = wasm._Z12find_max_miniii(num1, num2, num3);
+        var result = findmax(num1, num2, num3);
+
+        // Update the HTML to display the results
+        document.getElementById("max").innerHTML = result.max;
+      }
+    </script>
     <a href="canvas.html">CANVAS</a>
     <h1>Find the Max and Min</h1>
     <p>Enter three numbers to find the maximum and minimum values:</p>
@@ -14,23 +34,6 @@
       <button type="button" onclick="maxfunc()">Find Max and Min</button>
     </form>
     <p>The minimum value is: <span id="min"></span></p>
-    <script>
-      // Import the web assembly module
-      import * as wasm from "./max_min_finder.wasm";
-
-      function maxfunc() {
-        // Get the three input numbers
-        var num1 = document.getElementById("num1").value;
-        var num2 = document.getElementById("num2").value;
-        var num3 = document.getElementById("num3").value;
-
-        // Use the C++ code in the web assembly to find the maximum and minimum values
-        var result = wasm._Z12find_max_miniii(num1, num2, num3);
-
-        // Update the HTML to display the results
-        document.getElementById("max").innerHTML = result.max;
-      }
-    </script>
   </body>
 </html>
 <!-- This code assumes that the C++ code has been compiled into a web assembly module called max_min_finder.wasm, which is then imported in the JavaScript code and used to call the find_max_min function.
