@@ -42,5 +42,6 @@ function imageparsing(pixelinfo, maskinfo){
     var avgG = 0;
     var avgB = 0;
 
+    //scan the top row for chromakey search/algorithm
 
 }
