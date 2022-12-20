@@ -20,4 +20,14 @@ img.addEventListener('load', function(){
     canvas.setAttribute('height', height);
     canvas.setAttribute('width', width);
     ctx.drawImage(img, 0, 0);
+
+    // getting the RGB data output on terminal
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const pixelData = imageData.data;
+    for (let i = 0; i < pixelData.length; i += 4) {
+        const red = pixelData[i];
+        const green = pixelData[i + 1];
+        const blue = pixelData[i + 2];
+        console.log(`Red: ${red}, Green: ${green}, Blue: ${blue}`);
+    }
 })
