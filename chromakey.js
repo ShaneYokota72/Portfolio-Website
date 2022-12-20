@@ -31,3 +31,16 @@ img.addEventListener('load', function(){
         console.log(`Red: ${red}, Green: ${green}, Blue: ${blue}`);
     }
 })
+
+function imageparsing(pixelinfo, maskinfo){
+    // make sure the array ratio is correct
+    if(pixelinfo.length != (maskinfo.length)*4){
+        return console.log("arraysize has wrong ratio");
+    }
+    //declare the RGB variables to add all the scanned row/column value
+    var avgR = 0;
+    var avgG = 0;
+    var avgB = 0;
+
+
+}
