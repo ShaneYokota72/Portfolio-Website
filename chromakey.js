@@ -6,7 +6,7 @@ const img2 = document.getElementById("bg-image");
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext("2d");
 const canvas2 = document.getElementById('canvas2');
-const ctx2 = canvas.getContext("2d");
+const ctx2 = canvas2.getContext("2d");
 
 // setting the img in the HTML file to the inputed image
 input.addEventListener('change', function (){
@@ -158,20 +158,22 @@ img2.addEventListener('load', function(){
     }
     dif /= width*height;
 
-    
-
+    // Concatnating Foreground and Background
     for(let i=0; i<pixelData.length; i+=4){
         let distance = Math.sqrt(Math.pow(avgR-pixelData[i], 2) + Math.pow(avgG-pixelData[i+1], 2) + Math.pow(avgB-pixelData[i+2], 2));
         //console.log(distance + "vs" + dif);
+        if(dif*1.05 < distance){
+            bgpixelData[i] = pixelData[i];
+            bgpixelData[i+1] = pixelData[i+1];
+            bgpixelData[i+2] = pixelData[i+2];
+        }
         if(dif*1.05 > distance){
-            pixelData[i] = bgpixelData[i];
-            pixelData[i + 1] = bgpixelData[i+1];
-            pixelData[i + 2] = bgpixelData[i+2];
-            // pixelData[i] = 200;
-            // pixelData[i + 1] = 200;
-            // pixelData[i + 2] = 200;
+            pixelData[i] = 255;
+            pixelData[i + 1] = 255;
+            pixelData[i + 2] = 255;
         }
     }
     
+    ctx2.putImageData(bgData, 0, 0);
     ctx.putImageData(imageData, 0, 0);
 })

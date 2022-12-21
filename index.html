@@ -4,22 +4,18 @@
   <title>Chroma Key</title>
 </head>
 <body>
+  <h2>Foreground Image</h2>
   <input type="file" id="imageInput">
+  <h2>Background Image</h2>
   <input type="file" id="Background">
-  <h5>Original Image</h5>
+  <h5>Original Foreground Image</h5>
   <img id="my-image" src="" alt="">
-  <h5>Background Image</h5>
+  <h5>Original Background Image</h5>
   <img id="bg-image" src="" alt="">
-  <h5>After Application</h5>
-  <canvas id="canvas"></canvas>
-  <canvas id="canvas2"></canvas>
+  <h5>Green Screen Removed</h5>
+  <canvas id="canvas" width="0" height="0"></canvas>
+  <h5>Foreground image and Background image concatnated</h5>
+  <canvas id="canvas2" width="0" height="0"></canvas>
   <script src="chromakey.js"></script>
 </body>
 </html>
-<!-- const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-const image = document.getElementById("source");
-
-image.addEventListener("load", (e) => {
-  ctx.drawImage(image, 33, 71, 104, 124, 21, 20, 87, 104);
-}); -->
