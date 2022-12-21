@@ -13,6 +13,7 @@ input.addEventListener('change', function (){
     }
     reader.readAsDataURL(file);
 });
+
 // Apply some change to the file and put it into the canvas on the HTML file
 img.addEventListener('load', function(){
     let width = img.clientWidth;
@@ -80,5 +81,16 @@ function imageparsing(pixelinfo, maskinfo, width_, height_){
     for(let i=0; i<pixelinfo.length; i+=4){
         dif += Math.sqrt(Math.pow(avgR-pixelData[i], 2) + Math.pow(avgG-pixelData[i+1], 2) + Math.pow(avgB-pixelData[i+2], 2));
     }
-    dif /= Math.pow((pixelinfo.length/4), 2)
+    dif /= Math.pow((pixelinfo.length/4), 2);
+
+    for(let i=0; i<pixelinfo.length/4; i+=4){
+        let distance = 0;
+        distance = Math.sqrt(Math.pow(avgR-pixelData[i], 2) + Math.pow(avgG-pixelData[i+1], 2) + Math.pow(avgB-pixelData[i+2], 2));
+
+        if(dif*1.05 > distance){
+            mask[(i+4)/4] = false;
+        } else if(dif*1.05 <= distance) {
+            mask[i(i+4)/4] = true;
+        }
+    }
 }
