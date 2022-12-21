@@ -32,7 +32,7 @@ img.addEventListener('load', function(){
     }
 })
 
-function imageparsing(pixelinfo, maskinfo){
+function imageparsing(pixelinfo, maskinfo, width_, height_){
     // make sure the array ratio is correct
     if(pixelinfo.length != (maskinfo.length)*4){
         return console.log("arraysize has wrong ratio");
@@ -43,5 +43,22 @@ function imageparsing(pixelinfo, maskinfo){
     var avgB = 0;
 
     //scan the top row for chromakey search/algorithm
-
+    for(var i=0; i<width_*4; i+=4){
+        avgR += pixelinfo[i];
+        avgG += pixelinfo[i+1];
+        avgB += pixelinfo[i+2];  
+    }
+    //scan the left col for chromakey search/algorithm
+    for(var i=0; i<pixelinfo.length; i+=width_*4){
+        avgR += pixelinfo[i];
+        avgG += pixelinfo[i+1];
+        avgB += pixelinfo[i+2];  
+    }
+    //scan the right col for chromakey search/algorithm
+    for(var i=(width_-1)*4; i<pixelinfo.length; i+=width_*4){
+        avgR += pixelinfo[i];
+        avgG += pixelinfo[i+1];
+        avgB += pixelinfo[i+2]; 
+    }
+    //scan the top row for chromakey search/algorithm
 }
