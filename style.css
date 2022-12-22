@@ -162,3 +162,12 @@ footer{
     margin-top: 1.5rem;
     font-family: 'Trebuchet MS', sans-serif;
 }
+
+.continfo{
+    text-decoration: none;
+    color: #990000;
+    line-height: 1rem;
+}
+.continfo:hover{
+    text-decoration: underline;
+}

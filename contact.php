@@ -20,7 +20,7 @@
             <li><a href="index.html">ABOUT ME</a></li>
             <li><a href="projects.html">PROJECTS</a></li>
             <li><a href="resume.html">RESUME</a></li>
-            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="contact.php">CONTACT</a></li>
         </ul>
     </nav>
     
@@ -35,16 +35,43 @@
       </ul>
     </nav>
 
-    <form method="POST" action="mailtome.php" style="text-align: center;">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="first-name">First Name:</label><br>
-        <input type="text" id="first-name" name="first-name"><br>
-        <label for="last-name">Last Name:</label><br>
-        <input type="text" id="last-name" name="last-name"><br>
-        <label for="message">Message:</label><br>
-        <textarea id="message" name="message"></textarea><br>
-        <input type="submit" value="Submit">
+    <h2 style="text-align: center;">Contact Me</h2>
+    <h5 style="text-align: center; margin: 0 auto">Email: <a href="mailto:shaneyok@usc.edu" class="continfo">shaneyok@usc.edu</a></h5>
+    <h5 style="text-align: center; margin: 0 auto 15px auto">Phone: <a href="tel:7859178723" class="continfo">785-917-8723</a></h5>
+    <h6 style="text-align: center;">OR</h6>
+    <?php
+      if(!empty($_POST["send"])){
+        $userEmail = $_POST["email"];
+        $userFName = $_POST["first-name"];
+        $userLName = $_POST["last-name"];
+        $userMessage = $_POST["message"];
+        $toEmail = $_POST["shaneyok@usc.edu"];
+
+        $mailHeaders = "Name: ". $userFName . " " . $userLName .
+        "\r\n Email: " . $userEmail .
+        "\r\n Message: " . $userMessage . "\r\n";
+        
+        if(mail($toEmail, $userFName, $mailHeaders)){
+          $message = "Your Information is Received Successfully";
+        }
+      }
+    ?>
+
+    <form method="POST" name=emailcontact style="text-align: center;">
+        <label>Email:</label><br>
+        <input type="email" name="email" required><br>
+        <label>First Name:</label><br>
+        <input type="text" name="first-name" required><br>
+        <label>Last Name:</label><br>
+        <input type="text" name="last-name" required><br>
+        <label>Message:</label><br>
+        <textarea name="message"></textarea><br>
+        <input type="submit" name="send" value="Submit">
+        <?php
+          if(!empty($message)){
+            echo "<p>Your Information is Received Successfully</p>";
+          }
+        ?>
     </form>
       
     
