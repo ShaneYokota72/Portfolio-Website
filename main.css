@@ -62,3 +62,62 @@ nav ul li a:hover{
     font-size: 19px;
 }
 
+.shaneresume{
+    display: block;
+    margin: 0 auto;
+}
+
+.footericons{
+    margin: 0 10px;
+}
+
+.footercontainer{
+    display: grid;
+    width: 100%;
+    height: auto;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.links{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    margin: auto 0;
+    align-items: center;
+}
+
+.contactsinfos{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    margin: auto 0;
+}
+
+.links ul li a{
+    text-decoration: none;
+    border: solid;
+    border-radius: 5px;
+    line-height: 16px;
+    font-size: 15px;
+    color: black;
+}
+
+.links ul li a:hover{
+    color: aquamarine;
+}
+
+.contactsinfos h6, p{
+    margin-left: 90px;
+}
+
+.contactsinfos p{
+    margin-bottom: 5px;
+}
+
+.contactsinfos h6{
+    margin-bottom: 12px;
+}
+
+.card-text{
+    margin-left: 0px;
+}
