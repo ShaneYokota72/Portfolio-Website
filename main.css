@@ -39,6 +39,7 @@ nav ul li a:hover{
     color: aquamarine;
 }
 
+
 .card{
     margin: auto;
 }
@@ -106,18 +107,10 @@ nav ul li a:hover{
     color: aquamarine;
 }
 
-.contactsinfos h6, p{
+.footerobj{
     margin-left: 90px;
 }
 
-.contactsinfos p{
-    margin-bottom: 5px;
-}
-
-.contactsinfos h6{
-    margin-bottom: 12px;
-}
-
-.card-text{
-    margin-left: 0px;
+.emailform{
+    text-align: center;
 }
