@@ -51,3 +51,10 @@ nav ul li a:hover{
 .card-img-top:hover{
     transform: scale(1.1);
 }
+
+.description{
+    width: 45%;
+    margin: 0 auto;
+    font-size: 19px;
+}
+
