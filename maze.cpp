@@ -1,97 +1,12 @@
 #include <iostream>
 #include "mazeio.h"
 #include <fstream>
-#include "queue.h"
 #include <cmath>
 
 using namespace std;
 
 // Prototype for maze_search, which you will fill in below.
-int maze_search(char**, int, int);
-
-// Add other prototypes here for any functions you wish to use
-
-
-// main function to read, solve maze, and print result
-int main(int argc, char* argv[]) {
-    int rows, cols, result;
-    char** mymaze=NULL;
-    const char* invalid_char_message = "Error, invalid character.";
-    const char* invalid_maze_message = "Invalid maze.";
-    const char* no_path_message = "No path could be found!";
-
-    // error message when there isn't a file input
-    if(argc < 2){
-        cout << "Please provide a maze input file" << endl;
-        return 1;
-    }
-
-    // taking the argn[1] as the input file, and if it has error opening, print error message
-    // take the first two input and print them out as row and column, then close the input file
-    ifstream ifile(argv[1]);
-    if(ifile.fail()){
-        cout << "file input error" << endl;
-        return 1;
-    }
-    ifile >> rows >> cols;
-    cout << rows << " " << cols << endl;
-    ifile.close();
-    mymaze = read_maze(argv[1], &rows, &cols); // <---TASK: COMPLETE THIS FOR CHECKPOINT 1
-
-    // For checkpoint 2 you should check the validity of the maze
-    // You may do so anywhere you please and can abstract that
-    // operation with a function or however you like.
-
-    // loop through the input file and if there is any character that is not S,F,.,#, then print out invalid char message
-    for(int i=0; i<(rows);i++){
-      for(int j=0;j<(cols); j++){
-        if(mymaze[i][j] == '.' || mymaze[i][j] == 'S' || mymaze[i][j] == '#' || mymaze[i][j] == 'F'){
-            ;
-        } else {
-            cout << invalid_char_message << endl;
-        }
-      }
-    } 
-
-
-    //================================
-    // When working on Checkpoint 4, you will need to call maze_search
-    // and output the appropriate message or, if successful, print
-    // the maze.  But for Checkpoint 1, we print the maze, regardless.
-    
-    // depending on the return of the function maze_search, change the message to print out accordingly
-    result = maze_search(mymaze, rows, cols);
-    if(result == 0){
-      ;
-    } else if(result ==-1){
-        cout << invalid_maze_message << endl;
-    } else if(result == -2){
-        cout << no_path_message << endl;
-    } else if(result == -3){
-        cout << invalid_char_message << endl;
-    }
-    //================================
-    // ADD CODE BELOW 
-    // to delete all memory that read_maze allocated: CHECKPOINT 2
-    for(int i=0; i< rows; i++){
-      delete [] mymaze[i];
-    }
-    delete [] mymaze;
-
-    return 0;
-}
-
-/**************************************************
- * Attempt to find shortest path and return:
- *  1 if successful
- *  0 if no path exists
- *
- * If path is found fill it in with '*' characters
- *  but don't overwrite the 'S' and 'F' cells
- * NOTE: don't forget to deallocate memory in here too!
- *************************************************/
-int maze_search(char** maze, int rows, int cols)
-{
+int maze_search(char**, int, int){
     // *** You complete **** CHECKPOINT 4
     Location startloc;
     Location finishloc;
@@ -262,3 +177,185 @@ int maze_search(char** maze, int rows, int cols)
 
     return 0; // DELETE this stub, it's just for Checkpoint 1 to compile.
 }
+
+// Class and struct of Location and Queue
+
+// e.g. position [3][5] in an array would have row 3, col 5
+struct Location {
+   int row;
+   int col;
+};
+
+// a class that contains a series of Locations
+class Queue {
+public:
+   
+   // constructor. maxlen must be as large as the total number
+   // of Locations that will ever be entered into this Queue.
+   Queue(int maxlen){
+        head = 0;
+        tail = 0;
+        contents = new Location[maxlen];
+    }
+   
+   // destructor. releases resources. C++ will call it automatically.
+   ~Queue(){
+   }
+   
+   // insert a new Location at the end/back of our list   
+   void add_to_back(Location loc){
+        contents[tail] = loc;
+        tail++;
+    }
+
+   // return and "remove" the oldest Location not already extracted
+   Location remove_from_front(){
+        int temp = head;
+        head++;
+        return contents[temp];
+    }
+
+
+   // is this Queue empty? (did we extract everything added?)
+   bool is_empty(){
+        return head == tail;
+    }
+
+   // member variables of an Queue, for implementation:
+
+   // get the tail value
+   int get_tail(){
+        return tail;
+    }
+   // get the head value
+   int get_head(){
+        return head;
+    }
+   // get the contents value(address)
+   Location* get_contents(){
+        return contents;
+    }
+
+
+private:
+   Location* contents; // ptr to dynamically-allocated array
+   int tail; // how many Locations were added so far?
+             // (index of next free item at the end)
+   int head; // how many Locations were extracted so far?
+             // (index of the first occupied location)
+};
+
+// Prototyle of read/print maze functions
+// fill in rows and cols
+char** read_maze(char* filename, int* rows, int* cols){
+    // take in the argv[1] as the file 
+    ifstream ifile(filename);
+    // get rid of the first two value as those are row and col
+    int g1, g2;
+    ifile >> g1 >> g2;
+    // in case the file does not open, cout an error message and reuturn null
+    if(ifile.fail()){
+      cout << "input unable to open" << endl;
+        return NULL;
+    }
+    // dynamically allocating 2D array
+    char** R_maze = new char*[(*rows)];
+    for(int i=0; i<(*rows); i++){
+      R_maze[i] = new char[(*cols)];
+    }
+    // taking in the input form the file into the 2D array I just dymamically allocated
+    for(int i=0; i<(*rows);i++){
+        for(int j=0;j<(*cols); j++){
+            char temp;
+            ifile >> temp;
+            R_maze[i][j] = temp;
+        }
+    }
+    return R_maze;
+}
+
+// print maze to cout
+void print_maze(char** maze, int rows, int cols){
+    // *** You complete **** CHECKPOINT 1
+    // loop through the whole loop and print each value out
+    // change the printing row every row
+    cout << rows << " " << cols << endl;
+    for(int i=0; i<(rows);i++){
+        for(int j=0;j<(cols); j++){
+            cout << maze[i][j];
+        }
+        cout << endl;
+    }
+}
+
+
+
+// main function to read, solve maze, and print result
+int main(int argc, char* argv[]) {
+    int rows, cols, result;
+    char** mymaze=NULL;
+    const char* invalid_char_message = "Error, invalid character.";
+    const char* invalid_maze_message = "Invalid maze.";
+    const char* no_path_message = "No path could be found!";
+
+    // error message when there isn't a file input
+    if(argc < 2){
+        cout << "Please provide a maze input file" << endl;
+        return 1;
+    }
+
+    // taking the argn[1] as the input file, and if it has error opening, print error message
+    // take the first two input and print them out as row and column, then close the input file
+    ifstream ifile(argv[1]);
+    if(ifile.fail()){
+        cout << "file input error" << endl;
+        return 1;
+    }
+    ifile >> rows >> cols;
+    cout << rows << " " << cols << endl;
+    ifile.close();
+    mymaze = read_maze(argv[1], &rows, &cols); // <---TASK: COMPLETE THIS FOR CHECKPOINT 1
+
+    // For checkpoint 2 you should check the validity of the maze
+    // You may do so anywhere you please and can abstract that
+    // operation with a function or however you like.
+
+    // loop through the input file and if there is any character that is not S,F,.,#, then print out invalid char message
+    for(int i=0; i<(rows);i++){
+      for(int j=0;j<(cols); j++){
+        if(mymaze[i][j] == '.' || mymaze[i][j] == 'S' || mymaze[i][j] == '#' || mymaze[i][j] == 'F'){
+            ;
+        } else {
+            cout << invalid_char_message << endl;
+        }
+      }
+    } 
+
+
+    //================================
+    // When working on Checkpoint 4, you will need to call maze_search
+    // and output the appropriate message or, if successful, print
+    // the maze.  But for Checkpoint 1, we print the maze, regardless.
+    
+    // depending on the return of the function maze_search, change the message to print out accordingly
+    result = maze_search(mymaze, rows, cols);
+    if(result == 0){
+      ;
+    } else if(result ==-1){
+        cout << invalid_maze_message << endl;
+    } else if(result == -2){
+        cout << no_path_message << endl;
+    } else if(result == -3){
+        cout << invalid_char_message << endl;
+    }
+    //================================
+    // ADD CODE BELOW 
+    // to delete all memory that read_maze allocated: CHECKPOINT 2
+    for(int i=0; i< rows; i++){
+      delete [] mymaze[i];
+    }
+    delete [] mymaze;
+
+    return 0;
+}
+
