@@ -171,3 +171,20 @@ footer{
 .continfo:hover{
     text-decoration: underline;
 }
+
+@media only screen and (max-width: 1000px){
+    #menulist{
+        flex-direction: column;
+        align-items: center;
+    }
+    nav ul li{
+        list-style: none;
+        margin: 15px 10px 0 10px;
+    }
+}
+
+@media only screen and (max-width: 550px){
+    #ShaneLogo{
+        width: 80vw;
+    }
+}

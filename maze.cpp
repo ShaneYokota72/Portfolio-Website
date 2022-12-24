@@ -290,9 +290,21 @@ int maze_search(char** maze, int rows, int cols){
     return 0; // DELETE this stub, it's just for Checkpoint 1 to compile.
 }
 
+int main(){
+    cout << "Program will start when you type the maze and click the button" << endl;
+    return 0;
+}
+
+
+#ifdef __cplusplus
+#define EXTERN extern "C"
+#else
+#define EXTERN
+#endif
+
 
 // main function to read, solve maze, and print result
-int main(int argc, char* argv[]) {
+EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(int argc, char* argv[]) {
     int rows, cols, result;
     char** mymaze=NULL;
     const char* invalid_char_message = "Error, invalid character.";
@@ -359,9 +371,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
-#ifdef __cplusplus
-#define EXTERN extern "C"
-#else
-#define EXTERN
-#endif
