@@ -1,12 +1,124 @@
 #include <iostream>
-#include "mazeio.h"
 #include <fstream>
 #include <cmath>
+#include <stdio.h>
+#include <emscripten/emscripten.h>
+
 
 using namespace std;
 
+// Class and struct of Location and Queue
+
+// e.g. position [3][5] in an array would have row 3, col 5
+struct Location {
+   int row;
+   int col;
+};
+
+// a class that contains a series of Locations
+class Queue {
+public:
+   
+   // constructor. maxlen must be as large as the total number
+   // of Locations that will ever be entered into this Queue.
+   Queue(int maxlen){
+        head = 0;
+        tail = 0;
+        contents = new Location[maxlen];
+    }
+   
+   // destructor. releases resources. C++ will call it automatically.
+   ~Queue(){
+   }
+   
+   // insert a new Location at the end/back of our list   
+   void add_to_back(Location loc){
+        contents[tail] = loc;
+        tail++;
+    }
+
+   // return and "remove" the oldest Location not already extracted
+   Location remove_from_front(){
+        int temp = head;
+        head++;
+        return contents[temp];
+    }
+
+
+   // is this Queue empty? (did we extract everything added?)
+   bool is_empty(){
+        return head == tail;
+    }
+
+   // member variables of an Queue, for implementation:
+
+   // get the tail value
+   int get_tail(){
+        return tail;
+    }
+   // get the head value
+   int get_head(){
+        return head;
+    }
+   // get the contents value(address)
+   Location* get_contents(){
+        return contents;
+    }
+
+
+private:
+   Location* contents; // ptr to dynamically-allocated array
+   int tail; // how many Locations were added so far?
+             // (index of next free item at the end)
+   int head; // how many Locations were extracted so far?
+             // (index of the first occupied location)
+};
+
+// Prototyle of read/print maze functions
+// fill in rows and cols
+char** read_maze(char* filename, int* rows, int* cols){
+    // take in the argv[1] as the file 
+    ifstream ifile(filename);
+    // get rid of the first two value as those are row and col
+    int g1, g2;
+    ifile >> g1 >> g2;
+    // in case the file does not open, cout an error message and reuturn null
+    if(ifile.fail()){
+      cout << "input unable to open" << endl;
+        return NULL;
+    }
+    // dynamically allocating 2D array
+    char** R_maze = new char*[(*rows)];
+    for(int i=0; i<(*rows); i++){
+      R_maze[i] = new char[(*cols)];
+    }
+    // taking in the input form the file into the 2D array I just dymamically allocated
+    for(int i=0; i<(*rows);i++){
+        for(int j=0;j<(*cols); j++){
+            char temp;
+            ifile >> temp;
+            R_maze[i][j] = temp;
+        }
+    }
+    return R_maze;
+}
+
+// print maze to cout
+void print_maze(char** maze, int rows, int cols){
+    // *** You complete **** CHECKPOINT 1
+    // loop through the whole loop and print each value out
+    // change the printing row every row
+    cout << rows << " " << cols << endl;
+    for(int i=0; i<(rows);i++){
+        for(int j=0;j<(cols); j++){
+            cout << maze[i][j];
+        }
+        cout << endl;
+    }
+}
+
 // Prototype for maze_search, which you will fill in below.
-int maze_search(char**, int, int){
+int maze_search(char** maze, int rows, int cols){
     // *** You complete **** CHECKPOINT 4
     Location startloc;
     Location finishloc;
@@ -178,117 +290,6 @@ int maze_search(char**, int, int){
     return 0; // DELETE this stub, it's just for Checkpoint 1 to compile.
 }
 
-// Class and struct of Location and Queue
-
-// e.g. position [3][5] in an array would have row 3, col 5
-struct Location {
-   int row;
-   int col;
-};
-
-// a class that contains a series of Locations
-class Queue {
-public:
-   
-   // constructor. maxlen must be as large as the total number
-   // of Locations that will ever be entered into this Queue.
-   Queue(int maxlen){
-        head = 0;
-        tail = 0;
-        contents = new Location[maxlen];
-    }
-   
-   // destructor. releases resources. C++ will call it automatically.
-   ~Queue(){
-   }
-   
-   // insert a new Location at the end/back of our list   
-   void add_to_back(Location loc){
-        contents[tail] = loc;
-        tail++;
-    }
-
-   // return and "remove" the oldest Location not already extracted
-   Location remove_from_front(){
-        int temp = head;
-        head++;
-        return contents[temp];
-    }
-
-
-   // is this Queue empty? (did we extract everything added?)
-   bool is_empty(){
-        return head == tail;
-    }
-
-   // member variables of an Queue, for implementation:
-
-   // get the tail value
-   int get_tail(){
-        return tail;
-    }
-   // get the head value
-   int get_head(){
-        return head;
-    }
-   // get the contents value(address)
-   Location* get_contents(){
-        return contents;
-    }
-
-
-private:
-   Location* contents; // ptr to dynamically-allocated array
-   int tail; // how many Locations were added so far?
-             // (index of next free item at the end)
-   int head; // how many Locations were extracted so far?
-             // (index of the first occupied location)
-};
-
-// Prototyle of read/print maze functions
-// fill in rows and cols
-char** read_maze(char* filename, int* rows, int* cols){
-    // take in the argv[1] as the file 
-    ifstream ifile(filename);
-    // get rid of the first two value as those are row and col
-    int g1, g2;
-    ifile >> g1 >> g2;
-    // in case the file does not open, cout an error message and reuturn null
-    if(ifile.fail()){
-      cout << "input unable to open" << endl;
-        return NULL;
-    }
-    // dynamically allocating 2D array
-    char** R_maze = new char*[(*rows)];
-    for(int i=0; i<(*rows); i++){
-      R_maze[i] = new char[(*cols)];
-    }
-    // taking in the input form the file into the 2D array I just dymamically allocated
-    for(int i=0; i<(*rows);i++){
-        for(int j=0;j<(*cols); j++){
-            char temp;
-            ifile >> temp;
-            R_maze[i][j] = temp;
-        }
-    }
-    return R_maze;
-}
-
-// print maze to cout
-void print_maze(char** maze, int rows, int cols){
-    // *** You complete **** CHECKPOINT 1
-    // loop through the whole loop and print each value out
-    // change the printing row every row
-    cout << rows << " " << cols << endl;
-    for(int i=0; i<(rows);i++){
-        for(int j=0;j<(cols); j++){
-            cout << maze[i][j];
-        }
-        cout << endl;
-    }
-}
-
-
 
 // main function to read, solve maze, and print result
 int main(int argc, char* argv[]) {
@@ -359,3 +360,8 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+#ifdef __cplusplus
+#define EXTERN extern "C"
+#else
+#define EXTERN
+#endif
