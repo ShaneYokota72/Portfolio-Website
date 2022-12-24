@@ -187,4 +187,7 @@ footer{
     #ShaneLogo{
         width: 80vw;
     }
+    .footerobj{
+        margin-left: 0;
+    }
 }
