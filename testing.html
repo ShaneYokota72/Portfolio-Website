@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Textarea to String</title>
+</head>
+<body>
+  <h1>Textarea to String</h1>
+  <textarea id="textarea"></textarea>
+  <br>
+  <button id="button">Convert to String</button>
+  <br>
+  <p id="result"></p>
+
+<script>
+  const button = document.getElementById('button');
+  const textarea = document.getElementById('textarea');
+  const result = document.getElementById('result');
+
+  button.addEventListener('click', () => {
+    const text = textarea.value;
+    const noSpaceText = text.replace(/\s/g, '');
+    result.textContent = `The text is: "${noSpaceText}"`;
+  });
+</script>
+</body>
+</html>

@@ -2,6 +2,8 @@
 #include <fstream>
 #include <cmath>
 #include <stdio.h>
+#include <sstream>
+#include <string>
 #include <emscripten/emscripten.h>
 
 
@@ -74,9 +76,128 @@ private:
              // (index of the first occupied location)
 };
 
+
+
+int main(){
+    cout << "Program will start when you type the maze and click the button" << endl;
+    return 0;
+}
+
+
+#ifdef __cplusplus
+#define EXTERN extern "C"
+#else
+#define EXTERN
+#endif
+
+
+// main function to read, solve maze, and print result
+EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(int argc, char* argv[]) {
+
+    // a string will be the argv
+    // e.g. 
+    //////////
+    // 4 4  //
+    // ...s //
+    // .##. //
+    // .### //
+    // ..F. //
+    //////////
+    // will be inputed as "4 4 ...s .##. .### ..F."
+    int rows, cols, result;
+    char** mymaze=NULL;
+    const char* invalid_char_message = "Error, invalid character.";
+    const char* invalid_maze_message = "Invalid maze.";
+    const char* no_path_message = "No path could be found!";
+
+    // error message when there isn't a file input
+    if(argc < 2){
+        cout << "Please provide a maze input file" << endl;
+        return 1;
+    }
+
+
+    // taking the argn[1] as the input file, and if it has error opening, print error message
+    // take the first two input and print them out as row and column, then close the input file
+    string temp = argv[1];
+    cout << "temp: " << temp << endl;
+    cout << "argc: " << argc << endl;
+    stringstream ss(argv[1]);
+    char charrows;
+    char charcols;
+    ss >> charrows >> charcols;
+    rows = int(charrows)-48;
+    cols = int(charcols)-48;   
+
+    if(temp.length()-2 == rows*cols) {
+        mymaze = new char*[(rows)];
+        for(int i=0; i<(rows); i++){
+            mymaze[i] = new char[(cols)];
+        }
+
+        for(int i=0; i<(rows); i++){
+            for(int j=0;j<(cols); j++){
+                char temp;
+                ss >> temp;
+                mymaze[i][j] = temp;
+            }
+        }
+    } else {
+        cout << "temp len: " << temp.length() << endl;
+        cout << "row: " << rows << " cols: " << cols << " both x: " << rows*cols << endl;
+        cout << "The maze does not follow the format. Please try again" << endl;
+        return 1;
+    }
+    
+
+
+    // For checkpoint 2 you should check the validity of the maze
+    // You may do so anywhere you please and can abstract that
+    // operation with a function or however you like.
+
+    // loop through the input file and if there is any character that is not S,F,.,#, then print out invalid char message
+    for(int i=0; i<(rows);i++){
+      for(int j=0;j<(cols); j++){
+        if(mymaze[i][j] == '.' || mymaze[i][j] == 'S' || mymaze[i][j] == '#' || mymaze[i][j] == 'F'){
+            ;
+        } else {
+            cout << invalid_char_message << endl;
+        }
+      }
+    } 
+
+
+    //================================
+    // When working on Checkpoint 4, you will need to call maze_search
+    // and output the appropriate message or, if successful, print
+    // the maze.  But for Checkpoint 1, we print the maze, regardless.
+    
+    // depending on the return of the function maze_search, change the message to print out accordingly
+    result = maze_search(mymaze, rows, cols);
+    if(result == 0){
+      ;
+    } else if(result ==-1){
+        cout << invalid_maze_message << endl;
+    } else if(result == -2){
+        cout << no_path_message << endl;
+    } else if(result == -3){
+        cout << invalid_char_message << endl;
+    }
+    //================================
+    // ADD CODE BELOW 
+    // to delete all memory that read_maze allocated: CHECKPOINT 2
+    for(int i=0; i< rows; i++){
+      delete [] mymaze[i];
+    }
+    delete [] mymaze;
+
+    return 0;
+}
+
+
 // Prototyle of read/print maze functions
 // fill in rows and cols
-char** read_maze(char* filename, int* rows, int* cols){
+EXTERN EMSCRIPTEN_KEEPALIVE char** read_maze(char* filename, int* rows, int* cols){
     // take in the argv[1] as the file 
     ifstream ifile(filename);
     // get rid of the first two value as those are row and col
@@ -104,7 +225,7 @@ char** read_maze(char* filename, int* rows, int* cols){
 }
 
 // print maze to cout
-void print_maze(char** maze, int rows, int cols){
+EXTERN EMSCRIPTEN_KEEPALIVE void print_maze(char** maze, int rows, int cols){
     // *** You complete **** CHECKPOINT 1
     // loop through the whole loop and print each value out
     // change the printing row every row
@@ -118,7 +239,7 @@ void print_maze(char** maze, int rows, int cols){
 }
 
 // Prototype for maze_search, which you will fill in below.
-int maze_search(char** maze, int rows, int cols){
+EXTERN EMSCRIPTEN_KEEPALIVE int maze_search(char** maze, int rows, int cols){
     // *** You complete **** CHECKPOINT 4
     Location startloc;
     Location finishloc;
@@ -288,86 +409,4 @@ int maze_search(char** maze, int rows, int cols){
     delete [] Q1.get_contents();
 
     return 0; // DELETE this stub, it's just for Checkpoint 1 to compile.
-}
-
-int main(){
-    cout << "Program will start when you type the maze and click the button" << endl;
-    return 0;
-}
-
-
-#ifdef __cplusplus
-#define EXTERN extern "C"
-#else
-#define EXTERN
-#endif
-
-
-// main function to read, solve maze, and print result
-EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(int argc, char* argv[]) {
-    int rows, cols, result;
-    char** mymaze=NULL;
-    const char* invalid_char_message = "Error, invalid character.";
-    const char* invalid_maze_message = "Invalid maze.";
-    const char* no_path_message = "No path could be found!";
-
-    // error message when there isn't a file input
-    if(argc < 2){
-        cout << "Please provide a maze input file" << endl;
-        return 1;
-    }
-
-    // taking the argn[1] as the input file, and if it has error opening, print error message
-    // take the first two input and print them out as row and column, then close the input file
-    ifstream ifile(argv[1]);
-    if(ifile.fail()){
-        cout << "file input error" << endl;
-        return 1;
-    }
-    ifile >> rows >> cols;
-    cout << rows << " " << cols << endl;
-    ifile.close();
-    mymaze = read_maze(argv[1], &rows, &cols); // <---TASK: COMPLETE THIS FOR CHECKPOINT 1
-
-    // For checkpoint 2 you should check the validity of the maze
-    // You may do so anywhere you please and can abstract that
-    // operation with a function or however you like.
-
-    // loop through the input file and if there is any character that is not S,F,.,#, then print out invalid char message
-    for(int i=0; i<(rows);i++){
-      for(int j=0;j<(cols); j++){
-        if(mymaze[i][j] == '.' || mymaze[i][j] == 'S' || mymaze[i][j] == '#' || mymaze[i][j] == 'F'){
-            ;
-        } else {
-            cout << invalid_char_message << endl;
-        }
-      }
-    } 
-
-
-    //================================
-    // When working on Checkpoint 4, you will need to call maze_search
-    // and output the appropriate message or, if successful, print
-    // the maze.  But for Checkpoint 1, we print the maze, regardless.
-    
-    // depending on the return of the function maze_search, change the message to print out accordingly
-    result = maze_search(mymaze, rows, cols);
-    if(result == 0){
-      ;
-    } else if(result ==-1){
-        cout << invalid_maze_message << endl;
-    } else if(result == -2){
-        cout << no_path_message << endl;
-    } else if(result == -3){
-        cout << invalid_char_message << endl;
-    }
-    //================================
-    // ADD CODE BELOW 
-    // to delete all memory that read_maze allocated: CHECKPOINT 2
-    for(int i=0; i< rows; i++){
-      delete [] mymaze[i];
-    }
-    delete [] mymaze;
-
-    return 0;
 }
