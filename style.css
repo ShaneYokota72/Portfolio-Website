@@ -172,6 +172,27 @@ footer{
     text-decoration: underline;
 }
 
+.projectcontainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    width: 55%;
+    margin: 0 auto;
+    height: auto;
+}
+
+#ChromakeyProj{
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+#MazeSearchProj{
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+
 @media only screen and (max-width: 1000px){
     #menulist{
         flex-direction: column;

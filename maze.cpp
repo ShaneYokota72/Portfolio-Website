@@ -144,10 +144,7 @@ int maze_search(char** maze, int rows, int cols){
             f_amount++;
         } 
         if((i == (rows-1)) && (j == (cols-1))){
-            if(s == true && f == true && s_amount == 1 && f_amount ==1){
-              
-                ;
-            } else {
+            if(s != true || f != true || s_amount != 1 || f_amount !=1){
               return -1;
             }
         }
@@ -306,7 +303,7 @@ int main(){
 
 
 // main function to read, solve maze, and print result
-EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(const char* filename) {
+EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(const char* filename, const int r, const int c) {
 
     // a string will be the argv
     // e.g. 
@@ -334,15 +331,15 @@ EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(const char* filename) {
     // taking the argn[1] as the input file, and if it has error opening, print error message
     // take the first two input and print them out as row and column, then close the input file
     string temp = filename;
-    cout << "temp: " << temp << endl;
+    // cout << "temp: " << temp << endl;
     stringstream ss(temp);
-    char charrows;
-    char charcols;
-    ss >> charrows >> charcols;
-    rows = int(charrows)-48;
-    cols = int(charcols)-48;   
+    // char charrows;
+    // char charcols;
+    // ss >> charrows >> charcols;
+    rows = r;
+    cols = c; 
 
-    if(temp.length()-2 == rows*cols) {
+    if(temp.length() == rows*cols) {
         mymaze = new char*[(rows)];
         for(int i=0; i<(rows); i++){
             mymaze[i] = new char[(cols)];

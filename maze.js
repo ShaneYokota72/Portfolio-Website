@@ -2,16 +2,17 @@ var Module=typeof Module!="undefined"?Module:{};var moduleOverrides=Object.assig
 document.getElementById("mybutton").addEventListener("click", () => {
     alert("check console");
     const textarea = document.getElementById('textarea');
-
+     const row = document.getElementById("int1").value;
+    const col = document.getElementById("int2").value;
+  
     const text = textarea.value;
     const noSpaceText = text.replace(/\s/g, '');
     const argv = noSpaceText;
-
-    const result = Module.ccall(
+     const result = Module.ccall(
       "runmaze", // name of C function
       null, // return type
-      ['string'], // argument types
-      [argv] // arguments
+      ['string', 'number', 'number'], // argument types
+      [argv, row, col] // arguments
     );
   });
-  
+ 
