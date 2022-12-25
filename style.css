@@ -203,7 +203,11 @@ footer{
         margin: 15px 10px 0 10px;
     }
 }
-
+@media only screen and (max-width: 650px){
+    .projectcontainer{
+        display: block;
+    }
+}
 @media only screen and (max-width: 550px){
     #ShaneLogo{
         width: 80vw;
