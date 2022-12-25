@@ -185,11 +185,13 @@ footer{
 #ChromakeyProj{
     grid-column-start: 1;
     grid-column-end: 2;
+    margin-right: 1rem;
 }
 
 #MazeSearchProj{
     grid-column-start: 2;
     grid-column-end: 3;
+    margin-left: 1rem;
 }
 
 
@@ -206,6 +208,13 @@ footer{
 @media only screen and (max-width: 650px){
     .projectcontainer{
         display: block;
+    }
+    #ChromakeyProj{
+        margin: 0 auto;
+    }
+    
+    #MazeSearchProj{
+        margin: 0 auto;
     }
 }
 @media only screen and (max-width: 550px){
