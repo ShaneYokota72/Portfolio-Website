@@ -14,6 +14,8 @@
 #include <deque>
 #include <cstdlib>
 #include <string>
+#include <iomanip>
+#include <algorithm> // for std::sort
 
 using namespace std;
 
@@ -207,6 +209,264 @@ void DigitBlob::classify(){
     }   
     //printClassificationResults();
 }
+
+char DigitBlob::getClassification() const{
+    return digit_;
+}
+
+void DigitBlob::printClassificationResults() const{
+    cout << "Digit blob at " << ul_.row << "," << ul_.col << " h=" << h_ << " w=" << w_ << endl;
+    cout << "Bit quads: 1, 2, D, 3, 4:";
+    cout << " " << bq1_ << " " << bq2_ << " " << bqd_;
+    cout << " " << bq3_ << " " << bq4_ << endl;
+    cout << "Euler number is " << euler_ << endl;
+    // TO DO: Add any other couts to print classification test data
+    cout << "vsym: " << vsym << " hsym: " << hsym << endl;
+    cout << "top to bot ratio: " << toptobot << " left to right ratio: " << lefttoright << endl; 
+    cout << "vcentroid " << vcentroid << " hcentroid " << hcentroid << endl;
+    cout << "Vline: " << boolalpha << Vline << " Hline: " << Hline << endl;
+    cout << "halfVline: " << boolalpha << halfVline << " halfHline: " << halfHline << endl;
+    cout << "tophline: " << boolalpha << topHline << " bothline: " << botHline << endl;
+    cout << "right top is black?" << righttopblack << endl;
+    cout << "****Classified as: " << digit_ << "\n\n" << endl;
+
+}
+
+const Location& DigitBlob::getUpperLeft() const {
+    return ul_;
+}
+
+int DigitBlob::getHeight() const {
+    return h_;
+}
+
+int DigitBlob::getWidth() const {
+    return w_;
+}
+
+bool DigitBlob::operator<(const DigitBlob& other) {
+    // Use Location's operator< for DigitBlob operator<
+    return ul_ < other.ul_;
+}
+
+void DigitBlob::calc_euler_number() {
+    euler_ = -(bq1_ - bq3_ - 2*bqd_) / 4;
+}
+
+void DigitBlob::calc_bit_quads() {
+    for(int i = ul_.row-1; i<ul_.row + h_; i++){
+        for(int j=ul_.col-1; j < ul_.col + w_ ; j++){
+            Location bqcheck(i, j);
+            int b1 = img_[bqcheck.row][bqcheck.col];
+            int b2 = img_[bqcheck.row][bqcheck.col+1];
+            int b3 = img_[bqcheck.row+1][bqcheck.col];
+            int b4 = img_[bqcheck.row+1][bqcheck.col+1];
+            // check which bq it is and add 1 to the matching bq
+            if(b1+b2+b3+b4 == 255*4){
+                //0 bloc is balck(all white)
+                bq0_++;
+            } else if(b1+b2+b3+b4 == 255*3){
+                //1 bloc is balck
+                bq1_++;
+            } else if(b1+b2+b3+b4 == 255*2){
+                //2 block is black
+                if(b1 == b4){
+                    //bqd
+                    bqd_++;
+                } else {
+                    //bq2
+                    bq2_++;
+                }
+            } else if(b1+b2+b3+b4 == 255*1){
+                //3 block is black
+                bq3_++;
+            } else if(b1+b2+b3+b4 == 0){
+                //4 block is black
+                bq4_++;
+            }
+        }
+    }
+
+}
+
+void DigitBlob::calc_symmetry(){
+    //virtical symmetry (left to right)
+    double vmatch=0;
+    for(int i = 0; i<h_; i++){
+        for(int j=0; j < w_*0.45 ; j++){
+            if (img_[ul_.row + i][ul_.col + j] == img_[ul_.row + i][ul_.col + w_ -1 -j]){
+                vmatch++;
+            }
+        }
+    }
+    vsym = vmatch/(h_ * w_ / 2);
+
+
+    //horizontal symmetry (top to bottom)
+    double hmatch = 0;
+    for(int i = 0; i<h_*0.45; i++){
+        for(int j=0; j < w_ ; j++){
+            if (img_[ul_.row + i][ul_.col + j] == img_[ul_.row + h_ - 1 - i][ul_.col + j]){
+                hmatch++;
+            }
+        }
+    }
+    hsym = hmatch/(h_ * w_ / 2);
+}
+
+// calculate the ratio of the pixels from left to right and top to bottom
+void DigitBlob::morepixel(){
+    //virtical symmetry (left to right)
+    double leftblack = 0;
+    double rightblack = 0;
+    for(int i=ul_.row; i<ul_.row+h_-1; i++){
+        for(int j=ul_.col; j <ul_.col+w_-1; j++){
+            if(img_[i][j] == 0){
+                if(j< (ul_.col + ((w_-1)/2) - w_*0.1)){
+                    leftblack++;
+                } else if(j>=(ul_.col + ((w_-1)/2) + w_*0.1)){
+                    rightblack++;
+                }
+            }
+        }
+    }
+    //cout << "LtoR = " << rightblack/leftblack << endl;
+    lefttoright = rightblack/leftblack;
+
+    //horizontal symmetry (top to bottom)
+    double topblack = 0;
+    double botblack = 0;
+    for(int i=ul_.row; i<ul_.row+h_-1; i++){
+        for(int j=ul_.col; j <ul_.col+w_-1; j++){
+            if(img_[i][j] == 0){
+                if(i<(ul_.row + ((h_-1)/2) - h_*0.1)){
+                    topblack++;
+                } else if(i>=(ul_.row + ((h_-1)/2) + h_*0.1)){
+                    botblack++;
+                }
+            }
+        }
+    }
+    //cout << "TtoB = " << botblack/topblack << endl;
+    toptobot = botblack/topblack;
+}
+
+// calculate the vertical centroid and horizontal centroid
+void DigitBlob::calc_centers_of_mass(){
+    totalblack = 0;
+    vcentroid = 0;
+    hcentroid = 0;
+
+    for(int i=0; i<h_ - 1; i++){
+        for(int j=0; j<w_ - 1; j++){
+            if(img_[ul_.row + i][ul_.col + j] == 0){
+                totalblack++;
+                vcentroid+=j;
+                hcentroid+=i;
+            }
+        }  
+    }
+    vcentroid= vcentroid/(totalblack*(w_-1)); 
+    hcentroid= hcentroid/(totalblack*(h_-1)); 
+}
+
+// check if they have a horizontal line or vertical lien
+void DigitBlob::VHline(){
+    for(int i=ul_.row;i<ul_.row + h_ -1; i++){
+        int Htest = 0;
+        for(int j=ul_.col;j<ul_.col + w_ -1; j++){
+            if(Hline){
+                break;
+            }
+            if(img_[i][j] == 0){
+                Htest++;
+            }
+        }
+        if(Htest >= w_*0.801){
+            //cout << "Htest at " << i << " " << Htest << ":" << w_*0.85 << endl;
+            Hline = true;
+            if(i < (ul_.row + (h_*0.1))){
+                topHline = true;
+            } else if(i > (ul_.row + (h_*0.8))){
+                botHline = true;
+            }
+        }
+    }
+
+    for(int j=ul_.col;j<ul_.col + w_ -1; j++){
+        int Vtest = 0;
+        for(int i=ul_.row;i<ul_.row + h_ -1; i++){
+            if(Vline){
+                break;
+            }
+            if(img_[i][j] == 0){
+                Vtest++;
+            }
+        }
+        if(Vtest >= h_*0.85){
+            //cout << "Vtest at " << i << " " << Vtest << ":" << w_*0.85 << endl;
+            Vline = true;
+        }
+    }
+
+
+    for(int j=ul_.col;j<ul_.col + w_ -1; j++){
+        int halfVtest = 0;
+        bool starthalfV = false;
+        for(int i=ul_.row;i<ul_.row + h_ -1; i++){
+            if(halfHline){
+                break;
+            } else if(img_[i][j] == 0){
+                starthalfV = true;
+                halfVtest++;
+            } else if(starthalfV && img_[i][j] == 255){
+                break;
+            }
+        }
+        if(halfVtest >= h_*0.45 && halfVtest <= h_*0.6){
+            //cout << "Vtest at " << j << " " << Vtest << ":" << h_*0.85 << endl;
+            halfVline = true;
+        } 
+    }
+
+    for(int i=ul_.row;i<ul_.row + h_ -1; i++){
+        int halfHtest = 0;
+        bool starthalfH = false;
+        for(int j=ul_.col;j<ul_.col + w_ -1; j++){
+            if(halfHline){
+                break;
+            } else if(img_[i][j] == 0){
+                starthalfH = true;
+                halfHtest++;
+            } else if(starthalfH && img_[i][j] == 255){
+                break;
+            }
+        }
+        if(halfHtest >= w_*0.45 && halfHtest <= w_*0.6){
+            //cout << "Htest at " << i << " " << Htest << ":" << w_*0.85 << endl;
+            halfHline = true;
+        }
+    }
+}
+
+void DigitBlob::calc_corners(){
+    //double black = 0;
+    /*for(int i=ul_.row +h_ -1 -(0.025*h_); i<ul_.row +h_ -1; i++){
+        for(int j=ul_.col +w_ -1 -(0.025*w_); j<ul_.col +w_ -1; j++){
+            if(img_[i][j] == 0){
+                black++;
+            }
+        }
+    }
+    if(black/((0.025*h_)*(0.025*w_)) > 0.9){
+        righttopblack = true;
+    }*/
+
+    righttopblack = (img_[ul_.row][ul_.col + w_ -1] == 0 );
+
+}
+
+
 class NumImg {
 public:
     NumImg(const int* pixeldata, int imgwidth, int imgheight);
@@ -214,7 +474,7 @@ public:
     size_t findAndCreateDigitBlobs();
     string classify(bool withDebug);
     void printBoundingBoxes() const;
-    void drawBoundingBoxesAndSave(const char* filename);
+    /* void drawBoundingBoxesAndSave(const char* filename); */
     const DigitBlob& getDigitBlob(size_t i) const;
     size_t numDigitBlobs() const;
 private:
@@ -301,17 +561,103 @@ size_t NumImg::findAndCreateDigitBlobs(){
       }
     }
 
+    return result;
 }
 
-string NumImg::classify(bool withDebug);
+DigitBlob NumImg::createDigitBlob(bool** explored, int pr, int pc) {
+    // Arrays to help produce neighbors easily in a loop
+    // by encoding the **change** to the current location.
+    // Goes in order N, NW, W, SW, S, SE, E, NE
+    //for efficient for loop in the BFS algorithm
+    int neighbor_row[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+    int neighbor_col[8] = {0, -1, -1, -1, 0, 1, 1, 1};
 
-void NumImg::printBoundingBoxes() const;
+    // Add your code here
+    
+    //declare max left,right,top,bottom
+    int maxleft = pc;
+    int maxright = pc;
+    int maxtop = pr;
+    int maxbottom = pr;
+    //BFS search algorithm
+    deque<Location> loc;
+    visited[pr][pc] = true;
+    Location start(pr,pc);
+    loc.push_back(start);
+    while(loc.size() != 0){
+        Location temp = loc.at(0);
+        for(int i=0; i<8; i++){
+            if((img_[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] == 0) && (visited[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] == false)){
+                visited[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] = true;
+                Location addthis(temp.row+neighbor_row[i], temp.col+neighbor_col[i]);
+                loc.push_back(addthis);
+                if(temp.row+neighbor_row[i]>maxbottom){
+                    maxbottom = temp.row+neighbor_row[i];
+                }
+                if(temp.row+neighbor_row[i]<maxtop){
+                    maxtop = temp.row+neighbor_row[i];
+                }
+                if(temp.col+neighbor_col[i]>maxright){
+                    maxright = temp.col+neighbor_col[i];
+                }
+                if(temp.col+neighbor_col[i]<maxleft){
+                    maxleft = temp.col+neighbor_col[i];
+                }
+            }
+        }
+        loc.pop_front();
+    }
 
-void NumImg::drawBoundingBoxesAndSave(const char* filename);
+    // with the maxbot,top,right,left info, create the upperleft location
+    Location upperleft(maxtop, maxleft);
+    int height, width;
+    height = maxbottom - maxtop + 1;
+    width = maxright - maxleft + 1;
 
-const NumImg::DigitBlob& getDigitBlob(size_t i) const;
+    //make DigitBlob to return
+    DigitBlob tempblob(img_, upperleft, height, width);
 
-size_t NumImg::numDigitBlobs() const;
+    return tempblob;
+}
+
+string NumImg::classify(bool withDebug){
+    std::string res;
+    for(size_t i = 0; i < blobs_.size(); i++){
+        blobs_[i].classify();
+        if(withDebug){
+            blobs_[i].printClassificationResults();
+        }
+        char c = blobs_[i].getClassification();
+        res += c;
+    }
+    return res;
+}
+
+void NumImg::printBoundingBoxes() const {
+    cout << setw(2) << "i" << setw(6) << "ULRow" << setw(6) << "ULCol" << setw(4) << "Ht." << setw(4) << "Wi." << endl;
+    for(size_t i = 0; i < blobs_.size(); i++){
+        const DigitBlob& b = blobs_[i];
+        cout << setw(2) << i << setw(6) << b.getUpperLeft().row << setw(6) << b.getUpperLeft().col 
+        << setw(4) << b.getHeight() << setw(4) << b.getWidth()  << endl;
+    }
+}
+
+/* void NumImg::drawBoundingBoxesAndSave(const char* filename); */
+
+const NumImg::DigitBlob& getDigitBlob(size_t i) const {
+    if(i >= blobs_.size()){
+        throw std::out_of_range("Index to getDigitBlob is out of range");
+    }
+    return blobs_[i];
+}
+
+size_t NumImg::numDigitBlobs() const {
+    return blobs_.size();
+}
+
+void NumImg::sortDigitBlobs(){
+    std::sort(blobs_.begin(), blobs_.end());
+}
 
 int main(int* lhsimg, int* rhsimg, int command)
 {
