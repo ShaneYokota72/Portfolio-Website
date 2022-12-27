@@ -21,26 +21,15 @@ class NumImg {
 public:
     NumImg(const int* pixeldata, int imgwidth, int imgheight);
     ~NumImg();
-
     size_t findAndCreateDigitBlobs();
-
     string classify(bool withDebug);
-
     void printBoundingBoxes() const;
-
     void drawBoundingBoxesAndSave(const char* filename);
-
     const DigitBlob& getDigitBlob(size_t i) const;
-
     size_t numDigitBlobs() const;
-
-
 private:
-   
     void sortDigitBlobs();
-
     DigitBlob createDigitBlob(bool** explored, int pr, int pc);
-
     /// Pointer to the 2D dynamically allocated array of pixels
     uint8_t** img_;
     /// Height and width of input image (not always 256x256)
@@ -51,6 +40,61 @@ private:
     bool** visited;
 };
 
+class DigitBlob {
+public:
+    DigitBlob();
+    DigitBlob(uint8_t** img, Location upperleft, int height, int width);
+
+    ~DigitBlob();
+
+    void classify();
+
+    char getClassification() const;
+
+    void printClassificationResults() const;
+
+    const Location& getUpperLeft() const;
+    int getHeight() const;
+    int getWidth() const;
+
+    bool operator<(const DigitBlob& other);
+
+private:
+    void calc_bit_quads();
+    void calc_euler_number();
+    void calc_centers_of_mass();
+    void calc_symmetry();
+    void calc_aspect_ratio();
+    void calc_thirds();
+    void calc_corners();
+    void calc_vert_lines();
+    void morepixel();
+    void VHline();
+
+    uint8_t** img_;
+    Location ul_;
+    int h_;
+    int w_;
+    char digit_;
+    int bq0_,bq1_,bq2_,bq3_,bq4_,bqd_;
+    int euler_;
+    double vsym;
+    double hsym;
+    double toptobot;
+    double lefttoright;
+    double totalblack;
+    double vcentroid;
+    double hcentroid;
+
+    bool Vline;
+    bool Hline;
+    bool halfVline;
+    bool halfHline;
+    bool topHline;
+    bool botHline;
+    bool righttopblack;
+};
+
 NumImg::NumImg(const int* pixeldata, int imgwidth, int imgheight){
     // dynamically allocating an array
     img_ = new int[imgheight];
@@ -58,12 +102,60 @@ NumImg::NumImg(const int* pixeldata, int imgwidth, int imgheight){
         img_[i] = new int[imgwidth];
     }
 
+    // dynamically allocating visited array and setting the values to false as default
+    visited = new bool[imgheight];
+    for(int i=0; i<imgheight; i++){
+        visited[i] = new bool[imgwidth];
+    }
+
+    // inputting the data getting from JS and putting it into 2d array
+    // taking the R value as measurement
+
+    // at the same time, setting visited array to false
     for(int i=0; i<imgheight; i++){
         for(int j=0; j<imgwidth; i++){
-            img_[i][j] = pixeldata[i-1*j]
+            img_[i][j] = pixeldata[((i*imgwidth)+j)*4];
+            visited[i][j] = false;
         }
     }
+
+    // Convert to Black and White using a fixed threshold
+    for(int i=0; i<imgheight; i++){
+        for(int j=0; j<imgwidth; i++){
+            if(img_[i][j] > 150){
+                img_[i][j] = 255;
+            }
+            else {
+                img_[i][j] = 0;
+            }
+        }
+    }
+
 }
+
+NumImg::~NumImg(){
+    // memory deallocation
+    for(int i=0; i<h_; i++){
+      delete [] img_[i];
+      delete [] visited[i];
+    }
+    delete [] img_;
+    delete [] visited;
+}
+
+size_t NumImg::findAndCreateDigitBlobs(){
+    size_t result = 0;
+}
+
+string NumImg::classify(bool withDebug);
+
+void NumImg::printBoundingBoxes() const;
+
+void NumImg::drawBoundingBoxesAndSave(const char* filename);
+
+const NumImg::DigitBlob& getDigitBlob(size_t i) const;
+
+size_t NumImg::numDigitBlobs() const;
 
 int main(int* lhsimg, int* rhsimg, int command)
 {
