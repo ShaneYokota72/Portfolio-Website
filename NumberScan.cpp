@@ -497,13 +497,13 @@ NumImg::NumImg(const int* pixeldata, int imgwidth, int imgheight){
     w_ = imgwidth;
     
     // dynamically allocating an array
-    img_ = new int[imgheight];
+    img_ = new uint8_t*[imgheight];
     for(int i=0; i<imgheight; i++){
-        img_[i] = new int[imgwidth];
+        img_[i] = new uint8_t[imgwidth];
     }
 
     // dynamically allocating visited array and setting the values to false as default
-    visited = new bool[imgheight];
+    visited = new bool*[imgheight];
     for(int i=0; i<imgheight; i++){
         visited[i] = new bool[imgwidth];
     }
@@ -513,7 +513,7 @@ NumImg::NumImg(const int* pixeldata, int imgwidth, int imgheight){
 
     // at the same time, setting visited array to false
     for(int i=0; i<imgheight; i++){
-        for(int j=0; j<imgwidth; i++){
+        for(int j=0; j<imgwidth; j++){
             img_[i][j] = pixeldata[((i*imgwidth)+j)*4];
             visited[i][j] = false;
         }
@@ -521,7 +521,7 @@ NumImg::NumImg(const int* pixeldata, int imgwidth, int imgheight){
 
     // Convert to Black and White using a fixed threshold
     for(int i=0; i<imgheight; i++){
-        for(int j=0; j<imgwidth; i++){
+        for(int j=0; j<imgwidth; j++){
             if(img_[i][j] > 150){
                 img_[i][j] = 255;
             }
@@ -644,7 +644,7 @@ void NumImg::printBoundingBoxes() const {
 
 /* void NumImg::drawBoundingBoxesAndSave(const char* filename); */
 
-const NumImg::DigitBlob& getDigitBlob(size_t i) const {
+const DigitBlob& NumImg::getDigitBlob(size_t i) const{
     if(i >= blobs_.size()){
         throw std::out_of_range("Index to getDigitBlob is out of range");
     }
@@ -659,21 +659,20 @@ void NumImg::sortDigitBlobs(){
     std::sort(blobs_.begin(), blobs_.end());
 }
 
-int main(int* lhsimg, int* rhsimg, int command)
-{
+int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh, int command){
   int debug = command;
 
   // ===================
   // TO DO: Fill in the arguments to the constructors below
-  NumImg img1(lhsimg);
-  NumImg img2(rhsimg);
+  NumImg img1(lhsimg, lhsw, lhsh);
+  NumImg img2(rhsimg, rhsw, rhsh);
   // ===================
   // TO DO: call findAndCreateDigitBlobs on each img 
   img1.findAndCreateDigitBlobs();
   img2.findAndCreateDigitBlobs();
   // ===================
   // Complete - Do not alter
-  if(debug == 1) {
+  /* if(debug == 1) {
     img1.printBoundingBoxes();
   }
   else if(debug == 2) {
@@ -705,11 +704,12 @@ int main(int* lhsimg, int* rhsimg, int command)
     string num = img2.classify( debug == 6 );
     cout << "Image 2 digit string: " << num << endl;
   }
-  else {
+  else { */
     // Complete - Do not alter - Default full implementation
     string str1 = img1.classify(false);
     string str2 = img2.classify(false);
-    
+    cout << "str1: " << str1 << " str2: " << str2 << endl;
+
     BigInt num1(str1);
     BigInt num2(str2);
     BigInt sum = num1 + num2;
@@ -725,8 +725,12 @@ int main(int* lhsimg, int* rhsimg, int command)
       cout << num1.to_string() << " - " << num2.to_string() 
             << " = " << diff.to_string() << endl;
     }
-  }
+    /* } */ 
 
   return 0;
 }
 
+int main(int argc, char* argv[]){
+    
+    return 0;
+}
