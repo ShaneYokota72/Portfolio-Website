@@ -1,21 +1,78 @@
 // 1. load image
     // a. original does NumImg(filaname) -> open file with readGSBMP -> dynamically allocate to store the info to 2D array
     //    I will be doing it a little bit different. NumImg(array of the pixel info from JS) -> dynamically allocate a 2D array so that the form is the same as BMP file in C++
-    
+
 // 2. Find and Create Digit Blobs
 // 3. Sort the Digit Blobs
 // 4. Classify the Digits
 // 5. Since the result is in strings, change them to BigInt
 // 6. Calculate the answers with BigInt
 
-int main(int* img1, int* img2, int command)
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <deque>
+#include <cstdlib>
+#include <string>
+
+using namespace std;
+
+class NumImg {
+public:
+    NumImg(const int* pixeldata, int imgwidth, int imgheight);
+    ~NumImg();
+
+    size_t findAndCreateDigitBlobs();
+
+    string classify(bool withDebug);
+
+    void printBoundingBoxes() const;
+
+    void drawBoundingBoxesAndSave(const char* filename);
+
+    const DigitBlob& getDigitBlob(size_t i) const;
+
+    size_t numDigitBlobs() const;
+
+
+private:
+   
+    void sortDigitBlobs();
+
+    DigitBlob createDigitBlob(bool** explored, int pr, int pc);
+
+    /// Pointer to the 2D dynamically allocated array of pixels
+    uint8_t** img_;
+    /// Height and width of input image (not always 256x256)
+    int h_;
+    int w_;
+    /// Vector to store the DigitBlobs we find in the image
+    std::vector<DigitBlob> blobs_;
+    bool** visited;
+};
+
+NumImg::NumImg(const int* pixeldata, int imgwidth, int imgheight){
+    // dynamically allocating an array
+    img_ = new int[imgheight];
+    for(int i=0; i<imgheight; i++){
+        img_[i] = new int[imgwidth];
+    }
+
+    for(int i=0; i<imgheight; i++){
+        for(int j=0; j<imgwidth; i++){
+            img_[i][j] = pixeldata[i-1*j]
+        }
+    }
+}
+
+int main(int* lhsimg, int* rhsimg, int command)
 {
   int debug = command;
 
   // ===================
   // TO DO: Fill in the arguments to the constructors below
-  NumImg img1(argv[1]);
-  NumImg img2(argv[2]);
+  NumImg img1(lhsimg);
+  NumImg img2(rhsimg);
   // ===================
   // TO DO: call findAndCreateDigitBlobs on each img 
   img1.findAndCreateDigitBlobs();
