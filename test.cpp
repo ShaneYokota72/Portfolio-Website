@@ -1,17 +1,27 @@
 #include <stdio.h>
-#include <emscripten/emscripten.h>
+# include <iostream>
 
-int main() {
-    printf("Hello World\n");
-    return 0;
-}
+using namespace std; 
+struct Location {
+    int row;
+    int col;
+    // Default constructor
+    Location() {
+        row = -1;
+        col = -1;
+    }
+    // Initializing constructor
+    Location(int r, int c) {
+        row = r;
+        col = c;
+    }
 
-#ifdef __cplusplus
-#define EXTERN extern "C"
-#else
-#define EXTERN
-#endif
 
-EXTERN EMSCRIPTEN_KEEPALIVE void myFunction(int argc, char ** argv) {
-    printf("MyFunction Called\n");
+
+};
+
+
+int main(){
+    Location test;
+    cout << "row: " << test.row << " col: " << test.col << endl;
 }
