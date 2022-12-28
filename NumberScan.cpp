@@ -555,12 +555,11 @@ size_t NumImg::findAndCreateDigitBlobs(){
           DigitBlob goingtoadd;
           goingtoadd = createDigitBlob(visited, i, j);
           blobs_.push_back(goingtoadd);
-          sortDigitBlobs();
           result++;
         }
       }
     }
-
+    sortDigitBlobs();
     return result;
 }
 
@@ -657,6 +656,7 @@ size_t NumImg::numDigitBlobs() const {
 
 void NumImg::sortDigitBlobs(){
     std::sort(blobs_.begin(), blobs_.end());
+    for(int i=0; i<)
 }
 
 int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh, int command){
