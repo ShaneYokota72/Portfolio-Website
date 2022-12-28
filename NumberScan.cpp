@@ -655,15 +655,18 @@ size_t NumImg::numDigitBlobs() const {
 }
 
 void NumImg::sortDigitBlobs(){
-    std::sort(blobs_.begin(), blobs_.end());
+    // sort(blobs_.begin(), blobs_.end());
     for(unsigned int i=0; i<blobs_.size(); i++){
         int min = ((blobs_.at(i)).getUpperLeft()).row;
+        int minidx = i;
         for(unsigned int j=i; j<blobs_.size(); j++){
             if(((blobs_.at(j)).getUpperLeft()).row <= min){
                 min = ((blobs_.at(j)).getUpperLeft()).row;
+                minidx = j;
             }
         }
-        i and min index swap;
+        // i and min index swap;
+        swap(blobs_.at(i), blobs_.at(minidx));
     }
 }
 
