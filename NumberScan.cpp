@@ -656,7 +656,11 @@ size_t NumImg::numDigitBlobs() const {
 
 void NumImg::sortDigitBlobs(){
     std::sort(blobs_.begin(), blobs_.end());
-    /* for(int i=0; i<) */
+    for(unsigned int i=0; i<blobs_.size(); i++){
+        for(unsigned int j=i; j<blobs_.size(); j++){
+            
+        }
+    }
 }
 
 int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh, int command){
