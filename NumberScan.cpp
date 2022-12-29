@@ -15,10 +15,78 @@
 #include <cstdlib>
 #include <string>
 #include <iomanip>
-#include <algorithm> // for std::sort
+#include <algorithm> 
 #include <emscripten/emscripten.h>
 
 using namespace std;
+
+uint8_t** readGSBMP(const char* filename, int& height, int& width)
+{
+    height = width = 0;
+    uint8 type[2];
+    //int headersize = 0;
+
+    //int i,j;
+
+    BITMAPFILEHEADER bfh;
+
+    /* file pointer */
+    FILE *file;
+
+    /* read input bmp into the data matrix */
+    if (!(file=fopen(filename,"rb")))
+    {
+        cout << "Cannot open file: " << filename <<endl;
+        return NULL;
+    }
+
+    fread(type, sizeof(unsigned char), 0x2, file);
+    if(type[0] != 'B' and type[1] != 'M') {
+        cout << "Not a BMP file" << endl;
+        return NULL;
+    }
+    fread(&bfh.bfSize,sizeof(bfh.bfSize),1,file);
+    fread(&bfh.bfReserved1,sizeof(bfh.bfReserved1),1,file);
+    fread(&bfh.bfReserved2,sizeof(bfh.bfReserved2),1,file);
+    fread(&bfh.bfOffBits,sizeof(bfh.bfOffBits),1,file);
+    fread(&bfh.biSize,sizeof(bfh.biSize),1,file);
+    fread(&bfh.biWidth,sizeof(bfh.biWidth),1,file);
+    fread(&bfh.biHeight,sizeof(bfh.biHeight),1,file);
+
+    fread(&bfh.biPlanes,sizeof(bfh.biPlanes),1,file);
+    fread(&bfh.biBitCount,sizeof(bfh.biBitCount), 1, file);
+    fread(&bfh.biCompression,sizeof(bfh.biCompression),1,file);
+    fread(&bfh.biSizeImage,sizeof(bfh.biSizeImage),1,file);
+
+    fread(&bfh.biXPelsPerMeter,sizeof(bfh.biXPelsPerMeter),1, file);
+    fread(&bfh.biYPelsPerMeter,sizeof(bfh.biYPelsPerMeter),1, file);
+    fread(&bfh.biClrUsed,sizeof(bfh.biClrUsed), 1, file);
+    fread(&bfh.biClrImportant, sizeof(uint32),1,file);
+
+    height = bfh.biHeight;
+    width = bfh.biWidth;
+    //cout << "Read header h,w = " << height << "," << width << endl;
+    unsigned char **result=0;
+    result = new unsigned char*[bfh.biHeight];
+    for(unsigned i=0; i<bfh.biHeight; i++) {
+        result[i] = new unsigned char[bfh.biWidth];
+    }
+
+   //fseek(file, 10, SEEK_SET);
+   //fread(&headersize, sizeof(uint32), 1, file);
+   //cout << "Header size is " << bfh.bfOffBits << endl;
+
+    fseek(file, bfh.bfOffBits, SEEK_SET);
+
+    for(unsigned i=0; i<bfh.biHeight; i++) {
+        for(unsigned j=0; j<bfh.biWidth; j++) {
+            fread( &result[height-1-i][j], sizeof(unsigned char),1,file);
+        }
+    }
+    fclose(file);
+
+    return result;
+}
 
 struct Location {
     int row;
@@ -493,8 +561,8 @@ private:
 
 
 
-NumImg::NumImg(const int* pixeldata, int imgwidth, int imgheight){
-    h_ = imgheight;
+NumImg::NumImg(const char* bmp_filename){
+    /* h_ = imgheight;
     w_ = imgwidth;
     
     // dynamically allocating an array
@@ -530,8 +598,39 @@ NumImg::NumImg(const int* pixeldata, int imgwidth, int imgheight){
                 img_[i][j] = 0;
             }
         }
+    } */
+
+    img_ = readGSBMP(bmp_filename, h_, w_);
+
+    //dynamically allocating the visited array;
+    visited = new bool*[h_];
+    for(int i=0; i<h_; i++){
+        visited[i] = new bool[w_];
     }
 
+    for(int i=0; i<h_; i++){
+        for(int j=0; j<w_; j++){
+            visited[i][j] = false;
+        }
+    }
+
+
+    // Leave this check
+    if(img_ == NULL) {
+        throw std::logic_error("Could not read input file");
+    }
+    
+    // Convert to Black and White using a fixed threshold 
+    for(int i =0; i < h_; i++){
+        for(int j = 0; j < w_; j++){
+            if(img_[i][j] > 150){
+                img_[i][j] = 255;
+            }
+            else {
+                img_[i][j] = 0;
+            }
+        }
+    }
 }
 
 NumImg::~NumImg(){
@@ -681,13 +780,13 @@ int main(int argc, char* argv[]){
 #define EXTERN
 #endif
 
-EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh){
+EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(const char* lhsimg, const char* rhsimg){
     //int debug = command;
 
     // ===================
     // TO DO: Fill in the arguments to the constructors below
-    NumImg img1(lhsimg, lhsw, lhsh);
-    NumImg img2(rhsimg, rhsw, rhsh);
+    NumImg img1(lhsimg);
+    NumImg img2(rhsimg);
     // ===================
     // TO DO: call findAndCreateDigitBlobs on each img 
     img1.findAndCreateDigitBlobs();
