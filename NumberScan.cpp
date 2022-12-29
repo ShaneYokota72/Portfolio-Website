@@ -16,6 +16,7 @@
 #include <string>
 #include <iomanip>
 #include <algorithm> // for std::sort
+#include <emscripten/emscripten.h>
 
 using namespace std;
 
@@ -670,7 +671,17 @@ void NumImg::sortDigitBlobs(){
     }
 }
 
-int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh){
+int main(int argc, char* argv[]){
+    return 0;
+}
+
+#ifdef __cplusplus
+#define EXTERN extern "C"
+#else
+#define EXTERN
+#endif
+
+EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh){
     //int debug = command;
 
     // ===================
@@ -704,9 +715,4 @@ int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh){
     /* } */ 
 
   return 0;
-}
-
-int main(int argc, char* argv[]){
-    
-    return 0;
 }

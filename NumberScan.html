@@ -1,23 +1,27 @@
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>Num Scan</title>
-</head>S
+</head>
 <body>
-  <h2>Foreground Image</h2>
-  <input type="file" id="imageInput">
-  <h2>Background Image</h2>
-  <input type="file" id="Background">
+  <h2>1st Image</h2>
+  <input type="file" id="Number1">
+  <h2>2nd Image</h2>
+  <input type="file" id="Number2">
   <img id="my-image" src="" alt="">
-  <img id="bg-image" src="" alt="">
+  <img id="my-2-image" src="" alt="">
   <canvas id="canvas" width="0" height="0"></canvas>
   <canvas id="canvas2" width="0" height="0"></canvas>
+
+  <button id="mybutton">Run myFunction</button>
+  <script async src=NumberScan.js></script>
   <script>
     // all the values needed from the HTML file
-    const input = document.getElementById('imageInput');
-    const input2 = document.getElementById('Background');
+    const input = document.getElementById('Number1');
+    const input2 = document.getElementById('Number2');
     const img = document.getElementById("my-image");
-    const img2 = document.getElementById("bg-image");
+    const img2 = document.getElementById("my-2-image");
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext("2d");
     const canvas2 = document.getElementById('canvas2');
@@ -90,4 +94,3 @@
   </script>
 </body>
 </html>
-
