@@ -670,7 +670,7 @@ void NumImg::sortDigitBlobs(){
     }
 }
 
-int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh, int command){
+int NumScan(int* lhsimg, int lhsw, int lhsh, int* rhsimg, int rhsw, int rhsh){
     //int debug = command;
 
     // ===================
