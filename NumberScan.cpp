@@ -812,6 +812,8 @@ int main(int argc, char* argv[]){
 
 EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(const char* lhsimg, const char* rhsimg){
     //int debug = command;
+    cout << "1st image name: " << lhsimg << endl;
+    cout << "2nd image name: " << rhsimg << endl;
 
     // ===================
     // TO DO: Fill in the arguments to the constructors below
