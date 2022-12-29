@@ -16,9 +16,36 @@
 #include <string>
 #include <iomanip>
 #include <algorithm> 
+#include "unistd.h"
+#include <cstdlib>
+#include <cstdint>
 #include <emscripten/emscripten.h>
 
 using namespace std;
+
+typedef unsigned char uint8;
+typedef unsigned short int uint16;
+typedef unsigned int uint32;
+
+typedef struct {
+    uint8    bfType1;
+    uint8    bfType2;
+    uint32   bfSize;
+    uint16   bfReserved1;
+    uint16   bfReserved2;
+    uint32   bfOffBits;
+    uint32   biSize;          // size of structure, in bytes
+    uint32   biWidth;         // bitmap width, in pixels
+    uint32   biHeight;        // bitmap height, in pixels
+    uint16   biPlanes;        // see below
+    uint16   biBitCount;      // see below
+    uint32   biCompression;   // see below
+    uint32   biSizeImage;     // see below
+    uint32   biXPelsPerMeter; // see below
+    uint32   biYPelsPerMeter; // see below
+    uint32   biClrUsed;       // see below
+    uint32   biClrImportant;  // see below
+} BITMAPFILEHEADER, *PBITMAPFILEHEADER;
 
 uint8_t** readGSBMP(const char* filename, int& height, int& width)
 {
@@ -538,7 +565,7 @@ void DigitBlob::calc_corners(){
 
 class NumImg {
 public:
-    NumImg(const int* pixeldata, int imgwidth, int imgheight);
+    NumImg(const char* bmp_filename);
     ~NumImg();
     size_t findAndCreateDigitBlobs();
     string classify(bool withDebug);
@@ -771,6 +798,9 @@ void NumImg::sortDigitBlobs(){
 }
 
 int main(int argc, char* argv[]){
+    /* char* img1 = "img1a.bmp";
+    char* img2 = "img1b.bmp";
+    NumScan(img1, img2); */
     return 0;
 }
 
@@ -795,23 +825,6 @@ EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(const char* lhsimg, const char* rhsimg){
     string str1 = img1.classify(false);
     string str2 = img2.classify(false);
     cout << "str1: " << str1 << " str2: " << str2 << endl;
-
-    /* BigInt num1(str1);
-    BigInt num2(str2);
-    BigInt sum = num1 + num2;
-    cout << num1.to_string() << " + " << num2.to_string() 
-            << " = " << sum.to_string() << endl;
-    if(num1 < num2){
-        BigInt diff = num2 - num1;
-        cout << num2.to_string() << " - " << num1.to_string() 
-            << " = " << diff.to_string() << endl;
-    }
-    else {
-        BigInt diff = num1 - num2;
-        cout << num1.to_string() << " - " << num2.to_string() 
-            << " = " << diff.to_string() << endl;
-    } */
-    /* } */ 
 
   return 0;
 }
