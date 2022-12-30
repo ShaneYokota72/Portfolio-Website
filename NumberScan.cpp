@@ -19,7 +19,7 @@
 #include "unistd.h"
 #include <cstdlib>
 #include <cstdint>
-#include <emscripten/emscripten.h>
+/* #include <emscripten/emscripten.h> */
 
 using namespace std;
 
@@ -588,7 +588,7 @@ private:
 
 
 
-NumImg::NumImg(const char* bmp_filename){
+NumImg::NumImg(const char* bmp_filename/* const int* pixeldata, int imgwidth, int imgheight */){
     /* h_ = imgheight;
     w_ = imgwidth;
     
@@ -797,29 +797,15 @@ void NumImg::sortDigitBlobs(){
     }
 }
 
-
-int main(int argc, char* argv[]){
-    /* char* img1 = "img1a.bmp";
-    char* img2 = "img1b.bmp";
-    NumScan(img1, img2); */
-    return 0;
-}
-
-#ifdef __cplusplus
-#define EXTERN extern "C"
-#else
-#define EXTERN
-#endif
-
-EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(/* const char* lhsimg, const char* rhsimg */const int* lhsimg, const int lhsw, const int lhsh, const int* rhsimg, const int rhsw, const int rhsh){
+int NumScan(const char* lhsimg, const char* rhsimg/* const int* lhsimg, const int width, const int height, const int* rhsimg, const int rwidth, const int rheight */){
     //int debug = command;
-    cout << "1st image name: none for now" << /* lhsimg  << */endl;
-    cout << "2nd image name: none for now" << /* rhsimg  << */endl;
+    cout << "1st image name: " << lhsimg  <<endl;
+    cout << "2nd image name: " << rhsimg  <<endl;
 
     // ===================
     // TO DO: Fill in the arguments to the constructors below
-    /* NumImg img1(lhsimg, lhsw, lhsh);
-    NumImg img2(rhsimg, lhsw, lhsh);
+    NumImg img1(lhsimg);
+    NumImg img2(rhsimg);
     // ===================
     // TO DO: call findAndCreateDigitBlobs on each img 
     img1.findAndCreateDigitBlobs();
@@ -827,7 +813,37 @@ EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(/* const char* lhsimg, const char* rhsim
     // ===================
     string str1 = img1.classify(false);
     string str2 = img2.classify(false);
-    cout << "Num1: " << str1 << " Num2: " << str2 << endl; */
+    cout << "Num1: " << str1 << " Num2: " << str2 << endl;
 
   return 0;
 }
+
+int main(int argc, char* argv[]){
+    /* char* img1 = "img1a.bmp";
+    char* img2 = "img1b.bmp"; */
+    /* char* img1 = argv[1];
+    char* img2 = argv[2];
+    NumScan(img1, img2); */
+    cout << argv[1] << endl;
+    cout << argv[2] << endl;
+    NumImg img1(/* argv[1] */"img1a.bmp");
+    NumImg img2(/* argv[2] */"img1b.bmp");
+    // ===================
+    // TO DO: call findAndCreateDigitBlobs on each img 
+    img1.findAndCreateDigitBlobs();
+    img2.findAndCreateDigitBlobs();
+    // ===================
+    string str1 = img1.classify(false);
+    string str2 = img2.classify(false);
+    cout << "Num1: " << str1 << " Num2: " << str2 << endl;
+
+    return 0;
+}
+/* 
+#ifdef __cplusplus
+#define EXTERN extern "C"
+#else
+#define EXTERN
+#endif
+
+EXTERN EMSCRIPTEN_KEEPALIVE  */
