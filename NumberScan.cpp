@@ -826,8 +826,8 @@ int main(int argc, char* argv[]){
     NumScan(img1, img2); */
     cout << argv[1] << endl;
     cout << argv[2] << endl;
-    NumImg img1(/* argv[1] */"img1a.bmp");
-    NumImg img2(/* argv[2] */"img1b.bmp");
+    NumImg img1(argv[1]/* "img1a.bmp" */);
+    NumImg img2(argv[2]/* "img1b.bmp" */);
     // ===================
     // TO DO: call findAndCreateDigitBlobs on each img 
     img1.findAndCreateDigitBlobs();
