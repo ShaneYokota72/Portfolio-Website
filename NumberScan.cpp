@@ -797,6 +797,7 @@ void NumImg::sortDigitBlobs(){
     }
 }
 
+
 int main(int argc, char* argv[]){
     /* char* img1 = "img1a.bmp";
     char* img2 = "img1b.bmp";
@@ -810,15 +811,15 @@ int main(int argc, char* argv[]){
 #define EXTERN
 #endif
 
-EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(const char* lhsimg, const char* rhsimg){
+EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(/* const char* lhsimg, const char* rhsimg */const int* lhsimg, const int lhsw, const int lhsh, const int* rhsimg, const int rhsw, const int rhsh){
     //int debug = command;
-    cout << "1st image name: " << lhsimg << endl;
-    cout << "2nd image name: " << rhsimg << endl;
+    cout << "1st image name: none for now" << /* lhsimg  << */endl;
+    cout << "2nd image name: none for now" << /* rhsimg  << */endl;
 
     // ===================
     // TO DO: Fill in the arguments to the constructors below
-    NumImg img1(lhsimg);
-    NumImg img2(rhsimg);
+    /* NumImg img1(lhsimg, lhsw, lhsh);
+    NumImg img2(rhsimg, lhsw, lhsh);
     // ===================
     // TO DO: call findAndCreateDigitBlobs on each img 
     img1.findAndCreateDigitBlobs();
@@ -826,7 +827,7 @@ EXTERN EMSCRIPTEN_KEEPALIVE int NumScan(const char* lhsimg, const char* rhsimg){
     // ===================
     string str1 = img1.classify(false);
     string str2 = img2.classify(false);
-    cout << "str1: " << str1 << " str2: " << str2 << endl;
+    cout << "Num1: " << str1 << " Num2: " << str2 << endl; */
 
   return 0;
 }
