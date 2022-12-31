@@ -174,7 +174,7 @@ footer{
 
 .projectcontainer{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
 
     width: auto;
@@ -191,10 +191,15 @@ footer{
 #MazeSearchProj{
     grid-column-start: 2;
     grid-column-end: 3;
-    margin-left: 1rem;
+    margin: 0 auto;
 }
 
-
+#NumberScanProj{
+    grid-column-start: 3;
+    grid-column-end: 4;
+    margin-left: 1rem;
+}
+/* For the Nav Bar to be always centered */
 @media only screen and (max-width: 800px){
     #menulist{
         flex-direction: column;
@@ -205,18 +210,24 @@ footer{
         margin: 15px 10px 0 10px;
     }
 }
-@media only screen and (max-width: 650px){
+/* For the Project Cards to not extend over the screen */
+@media only screen and (max-width: 900px){
     .projectcontainer{
         display: block;
     }
     #ChromakeyProj{
-        margin: 0 auto;
+        margin: 1rem auto;
     }
     
     #MazeSearchProj{
-        margin: 0 auto;
+        margin: 1rem auto;
+    }
+
+    #NumberScanProj{
+        margin: 1rem auto
     }
 }
+/* For the Logo to always be centered */
 @media only screen and (max-width: 550px){
     #ShaneLogo{
         width: 80vw;
