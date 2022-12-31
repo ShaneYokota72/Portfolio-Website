@@ -355,20 +355,18 @@ class NumImg{
 
         // inputting the data getting from JS and putting it into 2d array
         // taking the R value as measurement
-        const matrix = transformArray(array, 3);
+        let pixel = [];
+        this.#visited = [];
+        for(let i=0; i<array.length; i+=4){
+            pixel.push(array[i]);
+            this.#visited.push(false);
+        }
+        const matrix = transformArray(pixel, this.#w_);
         img_ = matrix;
 
-        // at the same time, setting visited array to false
-        for(let i=0; i<imgheight; i++){
-            for(let j=0; j<imgwidth; j++){
-                img_[i][j] = pixeldata[((i*imgwidth)+j)*4];
-                visited[i][j] = false;
-            }
-        }
-
         // Convert to Black and White using a fixed threshold
-        for(let i=0; i<imgheight; i++){
-            for(let j=0; j<imgwidth; j++){
+        for(let i=0; i<this.#h_; i++){
+            for(let j=0; j<this.#w_; j++){
                 if(img_[i][j] > 150){
                     img_[i][j] = 255;
                 }
@@ -379,7 +377,7 @@ class NumImg{
         }
     }
     findAndCreateDigitBlobs(){
-// 
+
     }
     classify(DebugNum){
 
