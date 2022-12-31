@@ -46,9 +46,27 @@ function transformArray(array, width) {
 }
   
   // example usage
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27];
+  /* const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27];
   const matrix = transformArray(array, 3);
   console.log(matrix);
-  console.log(matrix[2][2]);
+  console.log(matrix[2][2]); */
   // Output: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  
+  const deque = [];
+
+  // add an element to the front of the deque
+  deque.unshift(1);
+  console.log(deque); // [1]
+  
+  // add an element to the end of the deque
+  deque.push(2);
+  console.log(deque); // [1, 2]
+  
+  // remove an element from the front of the deque
+  deque.shift();
+  console.log(deque); // [2]
+  
+  // remove an element from the end of the deque
+  deque.pop();
+  console.log(deque); // []
   

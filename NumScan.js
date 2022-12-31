@@ -356,13 +356,15 @@ class NumImg{
         // inputting the data getting from JS and putting it into 2d array
         // taking the R value as measurement
         let pixel = [];
-        this.#visited = [];
+        let exploredplace = [];
         for(let i=0; i<array.length; i+=4){
             pixel.push(array[i]);
             this.#visited.push(false);
         }
         const matrix = transformArray(pixel, this.#w_);
-        img_ = matrix;
+        const hasbeen = transformArray(exploredplace, this.#w_);
+        this.#img_ = matrix;
+        this.#visited = hasbeen;
 
         // Convert to Black and White using a fixed threshold
         for(let i=0; i<this.#h_; i++){
@@ -387,7 +389,62 @@ class NumImg{
 
     }
     #createDigitBlob(explored, pr, pc){
+        // Arrays to help produce neighbors easily in a loop
+        // by encoding the **change** to the current location.
+        // Goes in order N, NW, W, SW, S, SE, E, NE
+        //for efficient for loop in the BFS algorithm
+        let neighbor_row = [-1, -1, 0, 1, 1, 1, 0, -1];
+        let neighbor_col = [0, -1, -1, -1, 0, 1, 1, 1];
 
+        // Add your code here
+        
+        //declare max left,right,top,bottom
+        let maxleft = pc;
+        let maxright = pc;
+        let maxtop = pr;
+        let maxbottom = pr;
+        //BFS search algorithm
+        const loc = []
+        /* deque<Location> loc; */
+        this.#visited[pr][pc] = true;
+        let start = new Location(pr,pc);
+        loc.push(start);
+        while(loc.length != 0){
+            let temp = loc[0];
+            for(let i=0; i<8; i++){
+                if((this.#img_[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] == 0) && (visited[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] == false)){
+                    visited[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] = true;
+                    /* Location addthis(temp.row+neighbor_row[i], temp.col+neighbor_col[i]); */
+                    let addthis = new Location (temp.row+neighbor_row[i], temp.col+neighbor_col[i]);
+                    loc.push(addthis);
+                    if(temp.row+neighbor_row[i]>maxbottom){
+                        maxbottom = temp.row+neighbor_row[i];
+                    }
+                    if(temp.row+neighbor_row[i]<maxtop){
+                        maxtop = temp.row+neighbor_row[i];
+                    }
+                    if(temp.col+neighbor_col[i]>maxright){
+                        maxright = temp.col+neighbor_col[i];
+                    }
+                    if(temp.col+neighbor_col[i]<maxleft){
+                        maxleft = temp.col+neighbor_col[i];
+                    }
+                }
+            }
+            loc.shift();
+        }
+
+        // with the maxbot,top,right,left info, create the upperleft location
+        /* Location upperleft(maxtop, maxleft); */
+        let upperleft = new Location(maxtop, maxleft);
+        let height = maxbottom - maxtop + 1;
+        let width = maxright - maxleft + 1;
+
+        //make DigitBlob to return
+        /* DigitBlob tempblob(img_, upperleft, height, width); */
+        let tempblob = new DigitBlob(this.#img_, upperleft, height, width);
+
+        return tempblob;
     }
     #img_;
     #h_;
