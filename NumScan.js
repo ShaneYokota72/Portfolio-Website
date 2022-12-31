@@ -3,6 +3,20 @@
 // scan the image and make a Digit Blob
 // sort the Digit Blobs
 // Classiry the Digit 
+function transformArray(array, width) {
+    const matrix = new Array(array.length / width).fill().map(() => new Array(width));
+    let row = 0;
+    let col = 0;
+    for (let i = 0; i < array.length; i++) {
+        matrix[row][col] = array[i];
+        col++;
+        if (col === width) {
+            col = 0;
+            row++;
+        }
+    }
+    return matrix;
+}
 class Location{
     row;
     col;
@@ -334,19 +348,52 @@ class DigitBlob{
     #righttopblack;
 }
 class NumImg{
-    constructor(array){
+    constructor(array, height, width){
+        // instead of filename, I will be just taking an 2D array
+        this.#h_ = height;
+        this.#w_ = width;
 
+        // inputting the data getting from JS and putting it into 2d array
+        // taking the R value as measurement
+        const matrix = transformArray(array, 3);
+        img_ = matrix;
+
+        // at the same time, setting visited array to false
+        for(let i=0; i<imgheight; i++){
+            for(let j=0; j<imgwidth; j++){
+                img_[i][j] = pixeldata[((i*imgwidth)+j)*4];
+                visited[i][j] = false;
+            }
+        }
+
+        // Convert to Black and White using a fixed threshold
+        for(let i=0; i<imgheight; i++){
+            for(let j=0; j<imgwidth; j++){
+                if(img_[i][j] > 150){
+                    img_[i][j] = 255;
+                }
+                else {
+                    img_[i][j] = 0;
+                }
+            }
+        }
     }
     findAndCreateDigitBlobs(){
+// 
+    }
+    classify(DebugNum){
 
     }
-
     // private variables
     #sortDigitBlobs(){
 
     }
+    #createDigitBlob(explored, pr, pc){
+
+    }
+    #img_;
     #h_;
     #w_;
     #Blobs;
-
+    #visited;
 }
