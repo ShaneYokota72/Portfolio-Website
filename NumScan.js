@@ -2,6 +2,9 @@
 // use put the info into 2d array
 // scan the image and make a Digit Blob
 // sort the Digit Blobs
+
+const { blob } = require("stream/consumers");
+
 // Classiry the Digit 
 function transformArray(array, width) {
     const matrix = new Array(array.length / width).fill().map(() => new Array(width));
@@ -379,7 +382,22 @@ class NumImg{
         }
     }
     findAndCreateDigitBlobs(){
+        let result = 0;
 
+        //run through the image and check for a black pixel, then run BFS
+        for (let i=0; i<this.#h_; i++){
+            for(let j=0; j<this.#w_; j++){
+                if((this.#img_[i][j] == 0) && (this.#visited[i][j] == false)){
+                    // do the BFS search
+                    let goingtoadd = new DigitBlob(-1,-1);
+                    goingtoadd = createDigitBlob(this.#visited, i, j);
+                    this.#blobs.push(goingtoadd);
+                    result++;
+                }
+            }   
+        }
+        sortDigitBlobs();
+        return result;
     }
     classify(DebugNum){
 
@@ -449,6 +467,6 @@ class NumImg{
     #img_;
     #h_;
     #w_;
-    #Blobs;
+    #blobs;
     #visited;
 }
