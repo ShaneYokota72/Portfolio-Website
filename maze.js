@@ -15,6 +15,4 @@ document.getElementById("mybutton").addEventListener("click", () => {
     ['string', 'number', 'number'], // argument types
     [argv, row, col] // arguments
   );
-
-
 });
