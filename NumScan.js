@@ -5,6 +5,9 @@
 /* 
 const { blob } = require("stream/consumers");
  */
+
+/* const { blob } = require("stream/consumers"); */
+
 // Classiry the Digit 
 function transformArray(array, width) {
     const matrix = new Array(array.length / width).fill().map(() => new Array(width));
@@ -120,19 +123,19 @@ class DigitBlob{
     #calc_bit_quads(){
         for(let i = this.#ul_.row-1; i<this.#ul_.row + this.#h_; i++){
             for(let j= this.#ul_.col-1; j < this.#ul_.col + this.#w_ ; j++){
-                bqcheck = new Location(i,j);
-                let b1 = img_[bqcheck.row][bqcheck.col];
-                let b2 = img_[bqcheck.row][bqcheck.col+1];
-                let b3 = img_[bqcheck.row+1][bqcheck.col];
-                let b4 = img_[bqcheck.row+1][bqcheck.col+1];
+                let bqcheck = new Location(i,j);
+                let b1 = this.#img_[bqcheck.row][bqcheck.col];
+                let b2 = this.#img_[bqcheck.row][bqcheck.col+1];
+                let b3 = this.#img_[bqcheck.row+1][bqcheck.col];
+                let b4 = this.#img_[bqcheck.row+1][bqcheck.col+1];
                 // check which bq it is and add 1 to the matching bq
-                if(this.#b1+this.#b2+this.#b3+this.#b4 == 255*4){
+                if(b1+b2+b3+b4 == 255*4){
                     //0 bloc is balck(all white)
                     this.#bq0_++;
-                } else if(this.#b1+this.#b2+this.#b3+this.#b4 == 255*3){
+                } else if(b1+b2+b3+b4 == 255*3){
                     //1 bloc is balck
                     this.#bq1_++;
-                } else if(this.#b1+this.#b2+this.#b3+this.#b4 == 255*2){
+                } else if(b1+b2+b3+b4 == 255*2){
                     //2 block is black
                     if(b1 == b4){
                         //bqd
@@ -141,10 +144,10 @@ class DigitBlob{
                         //bq2
                         this.#bq2_++;
                     }
-                } else if(this.#b1+this.#b2+this.#b3+this.#b4 == 255*1){
+                } else if(b1+b2+b3+b4 == 255*1){
                     //3 block is black
                     this.#bq3_++;
-                } else if(this.#b1+this.#b2+this.#b3+this.#b4 == 0){
+                } else if(b1+b2+b3+b4 == 0){
                     //4 block is black
                     this.#bq4_++;
                 }
@@ -161,7 +164,7 @@ class DigitBlob{
 
         for(let i=0; i<this.#h_ - 1; i++){
             for(let j=0; j<this.#w_ - 1; j++){
-                if(img_[this.#ul_.row + i][this.#ul_.col + j] == 0){
+                if(this.#img_[this.#ul_.row + i][this.#ul_.col + j] == 0){
                     this.#totalblack++;
                     this.#vcentroid+=j;
                     this.#hcentroid+=i;
@@ -175,24 +178,24 @@ class DigitBlob{
         let vmatch=0;
         for(let i = 0; i<this.#h_; i++){
             for(let j=0; j < this.#w_*0.45 ; j++){
-                if (img_[(this.#ul_).row + i][(this.#ul_.col) + j] == img_[(this.#ul_).row + i][(this.#ul_).col + this.#w_ -1 -j]){
+                if (this.#img_[(this.#ul_).row + i][(this.#ul_.col) + j] == this.#img_[(this.#ul_).row + i][(this.#ul_).col + this.#w_ -1 -j]){
                     vmatch++;
                 }
             }
         }
-        this.#vsym = this.#vmatch/(this.#h_ * this.#w_ / 2);
+        this.#vsym = vmatch/(this.#h_ * this.#w_ / 2);
 
 
         //horizontal symmetry (top to bottom)
         let hmatch = 0;
         for(let i = 0; i<this.#h_*0.45; i++){
             for(let j=0; j < this.#w_ ; j++){
-                if (img_[(this.#ul_).row + i][(this.#ul_.col) + j] == img_[(this.#ul_).row + this.#h_ - 1 - i][(this.#ul_).col + j]){
+                if (this.#img_[(this.#ul_).row + i][(this.#ul_.col) + j] == this.#img_[(this.#ul_).row + this.#h_ - 1 - i][(this.#ul_).col + j]){
                     hmatch++;
                 }
             }
         }
-        this.#hsym = this.#hmatch/(this.#h_ * this.#w_ / 2);
+        this.#hsym = hmatch/(this.#h_ * this.#w_ / 2);
     }
     /* #calc_aspect_ratio(){
 
@@ -212,7 +215,7 @@ class DigitBlob{
         let rightblack = 0;
         for(let i=(this.#ul_).row; i<(this.#ul_).row+this.#h_-1; i++){
             for(let j=(this.#ul_).col; j <(this.#ul_).col+this.#w_-1; j++){
-                if(img_[i][j] == 0){
+                if(this.#img_[i][j] == 0){
                     if(j< ((this.#ul_).col + ((this.#w_-1)/2) - this.#w_*0.1)){
                         leftblack++;
                     } else if(j>=((this.#ul_).col + ((this.#w_-1)/2) + this.#w_*0.1)){
@@ -222,14 +225,14 @@ class DigitBlob{
             }
         }
         //cout << "LtoR = " << rightblack/leftblack << endl;
-        lefttoright = rightblack/leftblack;
+        this.#lefttoright = rightblack/leftblack;
 
         //horizontal symmetry (top to bottom)
         let topblack = 0;
         let botblack = 0;
         for(let i=(this.#ul_).row; i<(this.#ul_).row+this.#h_-1; i++){
             for(let j=(this.#ul_).col; j <(this.#ul_).col+this.#w_-1; j++){
-                if(img_[i][j] == 0){
+                if(this.#img_[i][j] == 0){
                     if(i<((this.#ul_).row + ((this.#h_-1)/2) - this.#h_*0.1)){
                         topblack++;
                     } else if(i>=((this.#ul_).row + ((this.#h_-1)/2) + this.#h_*0.1)){
@@ -239,7 +242,7 @@ class DigitBlob{
             }
         }
         //cout << "TtoB = " << botblack/topblack << endl;
-        this.#toptobot = this.#botblack/this.#topblack;
+        this.#toptobot = botblack/topblack;
     }
     #VHline(){
         for(let i=(this.#ul_).row;i<(this.#ul_).row + this.#h_ -1; i++){
@@ -248,7 +251,7 @@ class DigitBlob{
                 if(this.#Hline){
                     break;
                 }
-                if(img_[i][j] == 0){
+                if(this.#img_[i][j] == 0){
                     Htest++;
                 }
             }
@@ -269,7 +272,7 @@ class DigitBlob{
                 if(this.#Vline){
                     break;
                 }
-                if(img_[i][j] == 0){
+                if(this.#img_[i][j] == 0){
                     Vtest++;
                 }
             }
@@ -286,10 +289,10 @@ class DigitBlob{
             for(let i=(this.#ul_).row;i<(this.#ul_).row + this.#h_ -1; i++){
                 if(this.#halfHline){
                     break;
-                } else if(img_[i][j] == 0){
+                } else if(this.#img_[i][j] == 0){
                     starthalfV = true;
                     halfVtest++;
-                } else if(starthalfV && img_[i][j] == 255){
+                } else if(starthalfV && this.#img_[i][j] == 255){
                     break;
                 }
             }
@@ -305,10 +308,10 @@ class DigitBlob{
             for(let j=(this.#ul_).col;j<(this.#ul_).col + this.#w_ -1; j++){
                 if(this.#halfHline){
                     break;
-                } else if(img_[i][j] == 0){
+                } else if(this.#img_[i][j] == 0){
                     starthalfH = true;
                     halfHtest++;
-                } else if(starthalfH && img_[i][j] == 255){
+                } else if(starthalfH && this.#img_[i][j] == 255){
                     break;
                 }
             }
@@ -331,7 +334,7 @@ class DigitBlob{
     #bq3_;
     #bq4_;
     #bqd_;
-    euler_;
+    #euler_;
     #vsym;
     #hsym;
     #toptobot;
@@ -360,21 +363,21 @@ class NumImg{
         let exploredplace = [];
         for(let i=0; i<array.length; i+=4){
             pixel.push(array[i]);
-            this.#visited.push(false);
+            exploredplace.push(false);
         }
         const matrix = transformArray(pixel, this.#w_);
         const hasbeen = transformArray(exploredplace, this.#w_);
         this.#img_ = matrix;
         this.#visited = hasbeen;
-
+        this.#blobs_ = [];
         // Convert to Black and White using a fixed threshold
         for(let i=0; i<this.#h_; i++){
             for(let j=0; j<this.#w_; j++){
-                if(img_[i][j] > 150){
-                    img_[i][j] = 255;
+                if(this.#img_[i][j] > 150){
+                    this.#img_[i][j] = 255;
                 }
                 else {
-                    img_[i][j] = 0;
+                    this.#img_[i][j] = 0;
                 }
             }
         }
@@ -388,18 +391,18 @@ class NumImg{
                 if((this.#img_[i][j] == 0) && (this.#visited[i][j] == false)){
                     // do the BFS search
                     let goingtoadd = new DigitBlob(-1,-1);
-                    goingtoadd = createDigitBlob(this.#visited, i, j);
-                    this.#blobs.push(goingtoadd);
+                    goingtoadd = this.#createDigitBlob(this.#visited, i, j);
+                    this.#blobs_.push(goingtoadd);
                     result++;
                 }
             }   
         }
-        sortDigitBlobs();
+        this.#sortDigitBlobs();
         return result;
     }
     classify(DebugNum){
         let res;
-        for(let i = 0; i < this.#blobs_.length; i++){
+        for(let i = 0; i < (this.#blobs_).length; i++){
             this.#blobs_[i].classify();
             if(DebugNum){
                 this.#blobs_[i].printClassificationResults();
@@ -411,17 +414,17 @@ class NumImg{
     }
     // private variables
     #sortDigitBlobs(){
-        for(let i=0; i<this.#blobs.length; i++){
-            let min = ((this.#blobs[i]).getUpperLeft()).row;
+        for(let i=0; i<this.#blobs_.length; i++){
+            let min = ((this.#blobs_[i]).getUpperLeft()).row;
             let minidx = i;
-            for(let j=i; j<this.#blobs.length; j++){
-                if(((this.#blobs[j]).getUpperLeft()).row <= min){
-                    min = ((this.#blobs[j]).getUpperLeft()).row;
+            for(let j=i; j<this.#blobs_.length; j++){
+                if(((this.#blobs_[j]).getUpperLeft()).row <= min){
+                    min = ((this.#blobs_[j]).getUpperLeft()).row;
                     minidx = j;
                 }
             }
-            //swapping index to sort the blobs array
-            [this.#blobs[i], this.#blobs[minidx]] = [this.#blobs[minidx], this.#blobs[i]];
+            //swapping index to sort the blobs_ array
+            [this.#blobs_[i], this.#blobs_[minidx]] = [this.#blobs_[minidx], this.#blobs_[i]];
         }
     }
     #createDigitBlob(explored, pr, pc){
@@ -448,8 +451,8 @@ class NumImg{
         while(loc.length != 0){
             let temp = loc[0];
             for(let i=0; i<8; i++){
-                if((this.#img_[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] == 0) && (visited[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] == false)){
-                    visited[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] = true;
+                if((this.#img_[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] == 0) && (this.#visited[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] == false)){
+                    this.#visited[temp.row+neighbor_row[i]][temp.col+neighbor_col[i]] = true;
                     /* Location addthis(temp.row+neighbor_row[i], temp.col+neighbor_col[i]); */
                     let addthis = new Location (temp.row+neighbor_row[i], temp.col+neighbor_col[i]);
                     loc.push(addthis);
@@ -485,7 +488,7 @@ class NumImg{
     #img_;
     #h_;
     #w_;
-    #blobs;
+    #blobs_;
     #visited;
 }
 
@@ -503,7 +506,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext("2d");
 const canvas2 = document.getElementById('canvas2');
 const ctx2 = canvas2.getContext("2d");
-const start = document.getElementById('numberscan');
+const button = document.getElementById('my-button');
 
 // setting the img in the HTML file to the inputed image
 input.addEventListener('change', function (){
@@ -527,7 +530,8 @@ input2.addEventListener('change', function (){
 
 // Apply some change to the file and put it into the canvas on the HTML file
 
-start.addEventListener('click', function(){
+button.addEventListener('click', function(){
+    console.log("button clicked");
     let width = img.clientWidth;
     let height = img.clientHeight;
     canvas.setAttribute('height', height);
