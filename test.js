@@ -3,6 +3,7 @@ class Person {
     constructor(a, g) {
         this.#age = a;
         this.#gender = g;
+        this.code = a+5;
     }
 
     give(){
@@ -14,21 +15,23 @@ class Person {
     calc(){
         console.log(this.#age - 5);
     }
+    code;
     #age;
     #gender;
 }
 
-/* let people = [];
+let people = [];
 
 me = new Person(18, "male");
 people.push(me);
+console.log(me.code);
 you = new Person(18, "female");
 people.push(you);
 
 me.give();
 for(let i=0; i<people.length; i++){
     people[i].give();
-} */
+}
 
 function transformArray(array, width) {
     const matrix = new Array(array.length / width).fill().map(() => new Array(width));
@@ -52,7 +55,7 @@ function transformArray(array, width) {
   console.log(matrix[2][2]); */
   // Output: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
   
-  const deque = [];
+ /*  const deque = [];
 
   // add an element to the front of the deque
   deque.unshift(1);
@@ -69,4 +72,4 @@ function transformArray(array, width) {
   // remove an element from the end of the deque
   deque.pop();
   console.log(deque); // []
-  
+   */

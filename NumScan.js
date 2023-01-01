@@ -2,9 +2,9 @@
 // use put the info into 2d array
 // scan the image and make a Digit Blob
 // sort the Digit Blobs
-
+/* 
 const { blob } = require("stream/consumers");
-
+ */
 // Classiry the Digit 
 function transformArray(array, width) {
     const matrix = new Array(array.length / width).fill().map(() => new Array(width));
@@ -23,10 +23,6 @@ function transformArray(array, width) {
 class Location{
     row;
     col;
-    constructor(){
-        this.row = -1;
-        this.col = -1;
-    }
     constructor(r, c){
         this.row = r;
         this.col = c;
@@ -117,7 +113,9 @@ class DigitBlob{
     getClassification(){
         return this.#digit_;
     }
-
+    getUpperLeft(){
+        return this.#ul_;
+    }
     //private
     #calc_bit_quads(){
         for(let i = this.#ul_.row-1; i<this.#ul_.row + this.#h_; i++){
@@ -400,11 +398,31 @@ class NumImg{
         return result;
     }
     classify(DebugNum){
-
+        let res;
+        for(let i = 0; i < this.#blobs_.length; i++){
+            this.#blobs_[i].classify();
+            if(DebugNum){
+                this.#blobs_[i].printClassificationResults();
+            }
+            let c = this.#blobs_[i].getClassification();
+            res += c;
+        }
+        return res;
     }
     // private variables
     #sortDigitBlobs(){
-
+        for(let i=0; i<this.#blobs.length; i++){
+            let min = ((this.#blobs[i]).getUpperLeft()).row;
+            let minidx = i;
+            for(let j=i; j<this.#blobs.length; j++){
+                if(((this.#blobs[j]).getUpperLeft()).row <= min){
+                    min = ((this.#blobs[j]).getUpperLeft()).row;
+                    minidx = j;
+                }
+            }
+            //swapping index to sort the blobs array
+            [this.#blobs[i], this.#blobs[minidx]] = [this.#blobs[minidx], this.#blobs[i]];
+        }
     }
     #createDigitBlob(explored, pr, pc){
         // Arrays to help produce neighbors easily in a loop
