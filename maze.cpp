@@ -120,7 +120,7 @@ void print_maze(char** maze, int rows, int cols){
 }
 
 // Prototype for maze_search, which you will fill in below.
-int maze_search(char** maze, int rows, int cols){
+string maze_search(char** maze, int rows, int cols){
     // *** You complete **** CHECKPOINT 4
     Location startloc;
     Location finishloc;
@@ -131,7 +131,7 @@ int maze_search(char** maze, int rows, int cols){
       for(int j=0;j<(cols); j++){ 
 
         if(maze[i][j] != 'S' && maze[i][j] != 'F' && maze[i][j] != '.' && maze[i][j] != '#'){
-          return -3;
+          return "-3";
         } else if(maze[i][j] == 'S'){
             startloc.row = i;
             startloc.col = j;
@@ -145,7 +145,7 @@ int maze_search(char** maze, int rows, int cols){
         } 
         if((i == (rows-1)) && (j == (cols-1))){
             if(s != true || f != true || s_amount != 1 || f_amount !=1){
-              return -1;
+              return "-1";
             }
         }
       }
@@ -246,7 +246,7 @@ int maze_search(char** maze, int rows, int cols){
         }
         // if the queue is empty and the solution has not been found, return -2, which will ultimately print no path message
         if(Q1.is_empty() && nosolution){
-            return -2;
+            return "-2";
         } 
     }
 
@@ -265,12 +265,15 @@ int maze_search(char** maze, int rows, int cols){
             temp.col = Q1.get_contents()[i].col;
         }
     }
+    string result = "";
     // print out the predecessor array, which should be the maze + the route changed to '*'
     for(int i=0; i<(rows);i++){
         for(int j=0;j<(cols); j++){
             cout << predecessor[i][j];
+            result += predecessor[i][j];
         }
         cout << endl;
+        result+='\n';
     }
 
     // delete all the dynamically allocated memories
@@ -286,7 +289,9 @@ int maze_search(char** maze, int rows, int cols){
 
     delete [] Q1.get_contents();
 
-    return 0; // DELETE this stub, it's just for Checkpoint 1 to compile.
+    //return 0; // DELETE this stub, it's just for Checkpoint 1 to compile.
+    
+    return result;
 }
 
 int main(){
@@ -303,8 +308,8 @@ int main(){
 
 
 // main function to read, solve maze, and print result
-EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(const char* filename, const int r, const int c) {
-
+EXTERN EMSCRIPTEN_KEEPALIVE const char* runmaze(const char* filename, const int r, const int c) {
+    cout << "Program RunMaze Started";
     // a string will be the argv
     // e.g. 
     //////////
@@ -315,7 +320,8 @@ EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(const char* filename, const int r, const
     // ..F. //
     //////////
     // will be inputed as "4 4 ...s .##. .### ..F."
-    int rows, cols, result;
+    int rows, cols;
+    string result;
     char** mymaze=NULL;
     const char* invalid_char_message = "Error, invalid character.";
     const char* invalid_maze_message = "Invalid maze.";
@@ -355,8 +361,9 @@ EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(const char* filename, const int r, const
     } else {
         cout << "temp len: " << temp.length() << endl;
         cout << "row: " << rows << " cols: " << cols << " both x: " << rows*cols << endl;
-        cout << "The maze does not follow the format. Please try again" << endl;
-        return 1;
+        cout << "The maze does not follow the format. Please try again" << endl;/* 
+        char* mazeerror = "Error, invalid character.";
+        return mazeerror; */
     }
     
 
@@ -384,13 +391,13 @@ EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(const char* filename, const int r, const
     
     // depending on the return of the function maze_search, change the message to print out accordingly
     result = maze_search(mymaze, rows, cols);
-    if(result == 0){
+    if(result == "0"){
       ;
-    } else if(result ==-1){
+    } else if(result =="-1"){
         cout << invalid_maze_message << endl;
-    } else if(result == -2){
+    } else if(result == "-2"){
         cout << no_path_message << endl;
-    } else if(result == -3){
+    } else if(result == "-3"){
         cout << invalid_char_message << endl;
     }
     //================================
@@ -401,7 +408,13 @@ EXTERN EMSCRIPTEN_KEEPALIVE int runmaze(const char* filename, const int r, const
     }
     delete [] mymaze;
 
-    return 0;
+    char *cstr = new char[result.length() + 1];
+    strcpy(cstr, result.c_str());
+    char* resultcopy = cstr;
+    delete [] cstr;
+    cout << "Resultcopy: " << resultcopy << endl;
+    return resultcopy;
+    
 }
 
 
