@@ -563,7 +563,7 @@ button.addEventListener('click', function(){
     let str1 = image1.classify(false);
     let str2 = image2.classify(false);
 
-    res.innerHTML = ("Num1: " + str1 + "     Num2: " + str2);
+    res.innerHTML = ("RESULT:   Num1: " + str1 + "     Num2: " + str2);
     /* console.log(str1 + " and " + str2); */
 })
 

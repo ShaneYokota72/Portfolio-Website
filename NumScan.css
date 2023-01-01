@@ -1,6 +1,9 @@
 #head{
     padding: 1rem;
 }
+#explanation{
+    padding: 1rem;
+}
 .Inputcontainer{
     display: grid;
     grid-template-columns: 1fr 1fr;
