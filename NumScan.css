@@ -1,0 +1,52 @@
+#head{
+    padding: 1rem;
+}
+.Inputcontainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 50px;
+
+    width: 65%;
+    margin: 0 auto 0 0;
+    height: auto;
+}
+#Image1{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    padding: 1rem;
+}
+#Image2{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    padding: 1rem;
+}
+#IMG1confirm{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    padding: 1rem;
+}
+#IMG2confirm{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    padding: 1rem;
+}
+#resultdiv{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+#result{
+    margin-left: 1rem;
+}
+#my-button{
+    margin-left: 1rem;
+}

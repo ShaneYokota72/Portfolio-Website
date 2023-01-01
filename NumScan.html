@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chroma Key</title>
+  <title>NumberScan</title>
+  <link rel="stylesheet" href="NumScan.css">
 </head>
 <body>
-  <h1>NumScan</h1>
-  <h2>Number1</h2>
-  <input type="file" id="imageInput">
-  <h2>Number2</h2>
-  <input type="file" id="Background">
-  <h5>Original Foreground Image</h5>
-  <img id="my-image" src="" alt="">
-  <h5>Original Background Image</h5>
-  <img id="bg-image" src="" alt="">
-  <h5>Green Screen Removed</h5> 
-  <canvas id="canvas" width="0" height="0"></canvas>
-  <h5>Foreground image and Background image concatnated</h5>
-  <canvas id="canvas2" width="0" height="0"></canvas>
-  <button id="my-button">Click to start</button>
+  <h1 id="head">Number Scan</h1>
+  <div class="Inputcontainer">
+    <div id="Image1">
+        <h2>Number1</h2>
+        <input type="file" id="imageInput">
+        <h5>Original Foreground Image</h5>
+        <img id="my-image" src="" alt="">
+    </div>
+    <div id="Image2">
+        <h2>Number2</h2>
+        <input type="file" id="Background">
+        <h5>Original Background Image</h5>
+        <img id="bg-image" src="" alt="" >
+    </div>
+    <div id="IMG1confirm">
+        <h5>Number1 Comfirm</h5> 
+        <canvas id="canvas" width="0" height="0"></canvas>
+    </div>
+    <div id="IMG2confirm">
+        <h5>Number2 Confirm</h5>
+        <canvas id="canvas2" width="0" height="0"></canvas>
+    </div>
+    <div id="resultdiv">
+        <h2 id="result"></h2>
+    </div>
+  </div>
+  
+  
+
+  <button id="my-button">Click to Scan Number</button>
   <script src="NumScan.js"></script>
 </body>
 </html>

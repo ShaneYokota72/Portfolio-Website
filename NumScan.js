@@ -204,7 +204,7 @@ class DigitBlob{
 
     } */
     #calc_corners(){
-        this.#righttopblack = (img_[(this.#ul_).row][(this.#ul_).col + this.#w_ -1] == 0 );
+        this.#righttopblack = (this.#img_[(this.#ul_).row][(this.#ul_).col + this.#w_ -1] == 0 );
     }
     /* #calc_vert_lines(){
 
@@ -401,7 +401,7 @@ class NumImg{
         return result;
     }
     classify(DebugNum){
-        let res;
+        let res = "";
         for(let i = 0; i < (this.#blobs_).length; i++){
             this.#blobs_[i].classify();
             if(DebugNum){
@@ -507,6 +507,7 @@ const ctx = canvas.getContext("2d");
 const canvas2 = document.getElementById('canvas2');
 const ctx2 = canvas2.getContext("2d");
 const button = document.getElementById('my-button');
+const res = document.getElementById("result");
 
 // setting the img in the HTML file to the inputed image
 input.addEventListener('change', function (){
@@ -531,7 +532,7 @@ input2.addEventListener('change', function (){
 // Apply some change to the file and put it into the canvas on the HTML file
 
 button.addEventListener('click', function(){
-    console.log("button clicked");
+    /* console.log("button clicked"); */
     let width = img.clientWidth;
     let height = img.clientHeight;
     canvas.setAttribute('height', height);
@@ -562,7 +563,8 @@ button.addEventListener('click', function(){
     let str1 = image1.classify(false);
     let str2 = image2.classify(false);
 
-    console.log(str1 + " and " + str2);
+    res.innerHTML = ("Num1: " + str1 + "     Num2: " + str2);
+    /* console.log(str1 + " and " + str2); */
 })
 
 
