@@ -15,6 +15,8 @@ document.getElementById("mybutton").addEventListener("click", () => {
     [argv, row, col] // arguments
   );
 
-  const res = document.getElementById("resultroute");
-  res.innerHTML = (result);
+  //const res = document.getElementById("resultroute");
+  const res2 = document.getElementById("resultroute2")
+  //res.innerHTML = (result);
+  res2.innerHTML = (result);
 });
