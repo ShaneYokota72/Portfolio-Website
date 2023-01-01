@@ -308,7 +308,7 @@ int main(){
 
 
 // main function to read, solve maze, and print result
-EXTERN EMSCRIPTEN_KEEPALIVE const char* runmaze(const char* filename, const int r, const int c) {
+EXTERN EMSCRIPTEN_KEEPALIVE char* runmaze(const char* filename, const int r, const int c) {
     cout << "Program RunMaze Started";
     // a string will be the argv
     // e.g. 
@@ -393,7 +393,7 @@ EXTERN EMSCRIPTEN_KEEPALIVE const char* runmaze(const char* filename, const int 
     result = maze_search(mymaze, rows, cols);
     if(result == "0"){
       ;
-    } else if(result =="-1"){
+    } else if(result == "-1"){
         cout << invalid_maze_message << endl;
     } else if(result == "-2"){
         cout << no_path_message << endl;
@@ -408,12 +408,16 @@ EXTERN EMSCRIPTEN_KEEPALIVE const char* runmaze(const char* filename, const int 
     }
     delete [] mymaze;
 
-    char *cstr = new char[result.length() + 1];
-    strcpy(cstr, result.c_str());
-    char* resultcopy = cstr;
-    delete [] cstr;
-    cout << "Resultcopy: " << resultcopy << endl;
-    return resultcopy;
+    /* char* arr[result.length() + 1]; 
+	strcpy(arr, result.c_str()); 
+    arr[result.length()] = '\0';
+
+
+    string str = "std::string to char*";
+  */
+    char* rescast = const_cast<char*>(result.c_str());
+
+    return rescast;
     
 }
 
