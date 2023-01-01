@@ -488,3 +488,78 @@ class NumImg{
     #blobs;
     #visited;
 }
+
+
+// all the values needed from the HTML file
+// img1 input
+const input = document.getElementById('imageInput');
+// img2 input
+const input2 = document.getElementById('Background');
+//open img section for img1
+const img = document.getElementById("my-image");
+//open img section for img2
+const img2 = document.getElementById("bg-image");
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext("2d");
+const canvas2 = document.getElementById('canvas2');
+const ctx2 = canvas2.getContext("2d");
+const start = document.getElementById('numberscan');
+
+// setting the img in the HTML file to the inputed image
+input.addEventListener('change', function (){
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(){
+        img.src = reader.result;
+    }
+    reader.readAsDataURL(file);
+});
+
+// setting the img2 in the HTML file to the inputed image
+input2.addEventListener('change', function (){
+    const file = input2.files[0];
+    const reader = new FileReader();
+    reader.onload = function(){
+        img2.src = reader.result;
+    }
+    reader.readAsDataURL(file);
+});
+
+// Apply some change to the file and put it into the canvas on the HTML file
+
+start.addEventListener('click', function(){
+    let width = img.clientWidth;
+    let height = img.clientHeight;
+    canvas.setAttribute('height', height);
+    canvas.setAttribute('width', width);
+    ctx.drawImage(img, 0, 0);
+
+    let bgwidth = img2.clientWidth;
+    let bgheight = img2.clientHeight;
+    canvas2.setAttribute('height', bgheight);
+    canvas2.setAttribute('width', bgwidth);
+    ctx2.drawImage(img2, 0, 0);
+
+    // getting the RGB data for FG
+    const imageData = ctx.getImageData(0, 0, width, height);
+    const pixelData = imageData.data;
+
+    // getting the RGB data for BG
+    const bgData = ctx2.getImageData(0, 0, bgwidth, bgheight);
+    const bgpixelData = bgData.data;
+
+
+    // int main equivalent
+    let image1 = new NumImg(pixelData, height, width);
+    let image2 = new NumImg(bgpixelData, bgheight, bgwidth);
+    image1.findAndCreateDigitBlobs();
+    image2.findAndCreateDigitBlobs();
+
+    let str1 = image1.classify(false);
+    let str2 = image2.classify(false);
+
+    console.log(str1 + " and " + str2);
+})
+
+
+
