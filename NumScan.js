@@ -18,6 +18,7 @@ function transformArray(array, width) {
     }
     return matrix;
 }
+
 class Location{
     row;
     col;
@@ -25,8 +26,8 @@ class Location{
         this.row = r;
         this.col = c;
     }
-    //Maybe I'll add a operator overloading of <
 }
+
 class DigitBlob{
     constructor(img/* 2D array */, upperleft/* Location Object */, height, width){
         this.#img_ = img;
@@ -37,7 +38,7 @@ class DigitBlob{
         this.#bq3_ = 0;
         this.#bq4_ = 0;
         this.#bqd_ = 0;
-        this.#euler_ = -2; // dummy value
+        this.#euler_ = -2; 
 
         // Initilaize ul_, h_ and w_ and any other data members
         this.#ul_ = upperleft;
