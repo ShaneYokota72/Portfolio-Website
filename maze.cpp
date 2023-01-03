@@ -418,7 +418,6 @@ EXTERN EMSCRIPTEN_KEEPALIVE char* runmaze(const char* filename, const int r, con
     char* rescast = const_cast<char*>(result.c_str());
 
     return rescast;
-    
 }
 
 
