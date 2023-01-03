@@ -2,11 +2,6 @@
 // use put the info into 2d array
 // scan the image and make a Digit Blob
 // sort the Digit Blobs
-/* 
-const { blob } = require("stream/consumers");
- */
-
-/* const { blob } = require("stream/consumers"); */
 
 // Classiry the Digit 
 function transformArray(array, width) {
@@ -564,7 +559,6 @@ button.addEventListener('click', function(){
     let str2 = image2.classify(false);
 
     res.innerHTML = ("RESULT:   Num1: " + str1 + "     Num2: " + str2);
-    /* console.log(str1 + " and " + str2); */
 })
 
 
