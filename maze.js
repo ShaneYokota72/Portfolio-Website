@@ -7,7 +7,7 @@ document.getElementById("mybutton").addEventListener("click", () => {
   const text = textarea.value;
   const noSpaceText = text.replace(/\s/g, '');
   const argv = noSpaceText;
-  const result = Module.ccall(
+  let result = Module.ccall(
     "runmaze", // name of C function
     'string', // return type
     ['string', 'number', 'number'], // argument types
