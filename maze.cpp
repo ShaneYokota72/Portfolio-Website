@@ -395,10 +395,13 @@ EXTERN EMSCRIPTEN_KEEPALIVE char* runmaze(const char* filename, const int r, con
       ;
     } else if(result == "-1"){
         cout << invalid_maze_message << endl;
+        return "-1";
     } else if(result == "-2"){
         cout << no_path_message << endl;
+        return "-2";
     } else if(result == "-3"){
         cout << invalid_char_message << endl;
+        return "-3";
     }
     //================================
     // ADD CODE BELOW 
