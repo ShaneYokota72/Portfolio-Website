@@ -24,6 +24,6 @@ document.getElementById("mybutton").addEventListener("click", () => {
   } else if(result == "-3"){
     result = "Error, invalid character.";
   }
-
+  
   res2.innerHTML = (result);
 });
