@@ -327,21 +327,8 @@ EXTERN EMSCRIPTEN_KEEPALIVE char* runmaze(const char* filename, const int r, con
     const char* invalid_maze_message = "Invalid maze.";
     const char* no_path_message = "No path could be found!";
 
-    // error message when there isn't a file input
-    /* if(argc < 2){
-        cout << "Please provide a maze input file" << endl;
-        return 1;
-    } */
-
-
-    // taking the argn[1] as the input file, and if it has error opening, print error message
-    // take the first two input and print them out as row and column, then close the input file
     string temp = filename;
-    // cout << "temp: " << temp << endl;
     stringstream ss(temp);
-    // char charrows;
-    // char charcols;
-    // ss >> charrows >> charcols;
     rows = r;
     cols = c; 
 
@@ -361,16 +348,9 @@ EXTERN EMSCRIPTEN_KEEPALIVE char* runmaze(const char* filename, const int r, con
     } else {
         cout << "temp len: " << temp.length() << endl;
         cout << "row: " << rows << " cols: " << cols << " both x: " << rows*cols << endl;
-        cout << "The maze does not follow the format. Please try again" << endl;/* 
-        char* mazeerror = "Error, invalid character.";
-        return mazeerror; */
+        cout << "The maze does not follow the format. Please try again" << endl;
     }
     
-
-
-    // For checkpoint 2 you should check the validity of the maze
-    // You may do so anywhere you please and can abstract that
-    // operation with a function or however you like.
 
     // loop through the input file and if there is any character that is not S,F,.,#, then print out invalid char message
     for(int i=0; i<(rows);i++){
@@ -382,12 +362,6 @@ EXTERN EMSCRIPTEN_KEEPALIVE char* runmaze(const char* filename, const int r, con
         }
       }
     } 
-
-
-    //================================
-    // When working on Checkpoint 4, you will need to call maze_search
-    // and output the appropriate message or, if successful, print
-    // the maze.  But for Checkpoint 1, we print the maze, regardless.
     
     // depending on the return of the function maze_search, change the message to print out accordingly
     result = maze_search(mymaze, rows, cols);
@@ -403,21 +377,12 @@ EXTERN EMSCRIPTEN_KEEPALIVE char* runmaze(const char* filename, const int r, con
         cout << invalid_char_message << endl;
         return "-3";
     }
-    //================================
-    // ADD CODE BELOW 
-    // to delete all memory that read_maze allocated: CHECKPOINT 2
+    
     for(int i=0; i< rows; i++){
       delete [] mymaze[i];
     }
     delete [] mymaze;
 
-    /* char* arr[result.length() + 1]; 
-	strcpy(arr, result.c_str()); 
-    arr[result.length()] = '\0';
-
-
-    string str = "std::string to char*";
-  */
     char* rescast = const_cast<char*>(result.c_str());
 
     return rescast;
