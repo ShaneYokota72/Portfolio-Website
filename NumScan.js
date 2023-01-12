@@ -106,7 +106,11 @@ class DigitBlob{
             } else if(this.#halfVline){
                 this.#digit_ = '5';
             }
-        }   
+        }
+
+        if(this.#digit_ == '!'){
+            this.#digit_ = '9';
+        }
 
     }
     getClassification(){
