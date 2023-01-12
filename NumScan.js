@@ -378,6 +378,12 @@ class NumImg{
             }
         }
     }
+    printblob(){
+        for(let i=0; i<this.#blobs_.length; i++){
+            console.log((this.#blobs_[i].getUpperLeft()).row);
+            console.log((this.#blobs_[i].getUpperLeft()).col);
+        }
+    }
     findAndCreateDigitBlobs(){
         let result = 0;
 
@@ -394,6 +400,7 @@ class NumImg{
             }   
         }
         this.#sortDigitBlobs();
+        
         return result;
     }
     classify(DebugNum){
@@ -411,11 +418,11 @@ class NumImg{
     // private variables
     #sortDigitBlobs(){
         for(let i=0; i<this.#blobs_.length; i++){
-            let min = ((this.#blobs_[i]).getUpperLeft()).row;
+            let min = ((this.#blobs_[i]).getUpperLeft()).row + ((this.#blobs_[i]).getUpperLeft()).col;
             let minidx = i;
             for(let j=i; j<this.#blobs_.length; j++){
-                if(((this.#blobs_[j]).getUpperLeft()).row <= min){
-                    min = ((this.#blobs_[j]).getUpperLeft()).row;
+                if(((this.#blobs_[j]).getUpperLeft()).row + ((this.#blobs_[j]).getUpperLeft()).col <= min){
+                    min = ((this.#blobs_[j]).getUpperLeft()).row + ((this.#blobs_[j]).getUpperLeft()).col;
                     minidx = j;
                 }
             }
@@ -558,6 +565,9 @@ button.addEventListener('click', function(){
 
     let str1 = image1.classify(false);
     let str2 = image2.classify(false);
+
+    /* image1.printblob();
+    image2.printblob(); */
 
     res.innerHTML = ("RESULT:   Num1: " + str1 + "     Num2: " + str2);
 })
