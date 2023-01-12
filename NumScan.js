@@ -378,12 +378,13 @@ class NumImg{
             }
         }
     }
-    printblob(){
+    // refining the sorting algorithm
+    /* printblob(){
         for(let i=0; i<this.#blobs_.length; i++){
             console.log((this.#blobs_[i].getUpperLeft()).row);
             console.log((this.#blobs_[i].getUpperLeft()).col);
         }
-    }
+    } */
     findAndCreateDigitBlobs(){
         let result = 0;
 
@@ -566,6 +567,7 @@ button.addEventListener('click', function(){
     let str1 = image1.classify(false);
     let str2 = image2.classify(false);
 
+    //testing the sorting algorithm
     /* image1.printblob();
     image2.printblob(); */
 
