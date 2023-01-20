@@ -175,29 +175,51 @@ footer{
 .projectcontainer{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr 20px 1fr;
 
     width: auto;
     margin: 0 auto;
     height: auto;
 }
 
-#ChromakeyProj{
+#NumberScanProj{
     grid-column-start: 1;
     grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
     margin-right: 1rem;
 }
 
 #MazeSearchProj{
     grid-column-start: 2;
     grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
     margin: 0 auto;
 }
 
-#NumberScanProj{
+#ChromakeyProj{
     grid-column-start: 3;
     grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
     margin-left: 1rem;
+}
+
+#MusicPlayer{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    margin-right: 1rem;
+}
+
+#ImageGallery{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    margin: 0 auto;
 }
 /* For the Nav Bar to be always centered */
 @media only screen and (max-width: 800px){
@@ -224,6 +246,14 @@ footer{
     }
 
     #NumberScanProj{
+        margin: 1rem auto
+    }
+
+    #MusicPlayer{
+        margin: 1rem auto
+    }
+    
+    #ImageGallery{
         margin: 1rem auto
     }
 }

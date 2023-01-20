@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        .playerright{
+            display: inline-block;
+        }
+        .container{
+            border: 1px solid black;
+            box-shadow: 1px 1px 5px black;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+
+            width: 500px;
+        }
+        #musicimg{
+            grid-column: 1/2;
+            margin: auto ;
+        }
+        .playerright{
+            grid-column: 2/3;
+            margin: auto;
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="musicimg" src="https://upload.wikimedia.org/wikipedia/en/c/c7/Honestly%2C_Nevermind_-_Drake.png" alt="honestly nevermind" style="width: 150px;">
+        <div class="playerright">
+            <h3 id="title" style="color: grey;">Song Title</h3>
+            <p id="lyrics" style="color: grey;">Lyrics</p>
+            <audio id="player"  src="https://firstcoding-kr.github.io/deep-web/js/music_player_v1/music.mp3" controls></audio>
+        </div>
+    </div>
+    <script src="lyrics.js"> </script>
+    <!-- <button onclick="marktime();" id="timetracker" type="button">button</button> -->
+    <!-- <script> put the js code if you want to make the project 1 file </script> -->
+</body>
+</html>
