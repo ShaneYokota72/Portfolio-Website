@@ -42,7 +42,7 @@ nav ul li a:hover{
 
 
 .card{
-    margin: auto;
+    margin: 0 auto auto auto;
     font-family: 'Trebuchet MS', sans-serif;
 }
 
