@@ -8,4 +8,4 @@ I have utilized HTML, CSS, JavaScript for frontend, and C++, JavaScript, WebAsse
 
 I've added the code to GitHub, so that prospective employers, clients and colleagues can have a peak around my code.
 
-Take a look at the live version <a href="shaneyok.netlify.app">here</a>!
+Take a look at the live version <a href="https://shaneyok.netlify.app/">here</a>!
