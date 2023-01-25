@@ -1,13 +1,14 @@
 .navbarall{
     display: flex;
     justify-content: space-between;
-    margin: 0 3rem;
+    padding: 0 3rem;
     align-items: center;
     position: sticky;
     top: 0px;
     z-index: 10;
     height: 60px;
     margin-top: -60px;
+    background-color: transparent;
 }
 #menulist{
     display: flex;
