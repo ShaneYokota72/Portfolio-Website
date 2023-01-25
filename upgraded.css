@@ -1,0 +1,51 @@
+.navbarall{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 3rem;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+    height: 60px;
+    margin-top: -60px;
+}
+#menulist{
+    display: flex;
+    justify-content: center;
+}
+
+#sociallist{
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+}
+
+.topnavli{
+    list-style: none;
+    margin: 0 10px 0 10px;
+}
+
+.sociallistli{
+    list-style: none;
+    margin: 0 10px 0 10px;
+}
+
+nav ul li a{
+    text-decoration: none;
+    line-height: 16px;
+    font-size: 16px;
+    color: #F1F8FF;
+}
+
+.description{
+    width: 45%;
+    margin: 0 auto;
+    font-size: 19px;
+    color: #ddcece;
+
+}
+
+.intro{
+    background-image:url(introsection.png) ;
+    padding: 5rem 2rem 2rem 2rem;
+}
