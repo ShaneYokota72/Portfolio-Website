@@ -81,13 +81,28 @@ nav ul li a:hover{
     justify-content: center;
 }
 
+#aboutmetext{
+    font-family: sans-serif;
+    text-align: center;
+    color: #5e6951;
+    font-size: 30px;
+}
+
 .cardandproj{
     background-image: url(./cardbackground.png);
     background-size: cover;
 }
 
+#projectstext{
+    font-family: sans-serif;
+    text-align: center;
+    color: #81c72b;
+    padding-top: 6.5rem;
+    font-size: 30px;
+}
+
 .projectcontainer{
-    padding: 5rem;
+    padding: 0rem 5rem 10rem 5rem;
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -191,6 +206,24 @@ nav ul li a:hover{
 .card-img-top:hover{
     transform: scale(1.1);
 }
+
+.shaneresume{
+    display: block;
+    margin: 0 auto;
+    height: 1090px;
+}
+
+#resumetext{
+    font-family: sans-serif;
+    text-align: center;
+    color: #5e6951;
+    font-size: 30px;
+}
+
+.resumesec{
+    padding: 6.5rem 0;
+}
+
 
 /* For the Project Cards to not extend over the screen */
 @media only screen and (max-width: 900px){
