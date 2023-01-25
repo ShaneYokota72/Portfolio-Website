@@ -74,10 +74,15 @@ nav ul li a:hover{
 .aboutme{
     background-image: url(Aboutmebackground.jpeg);
     padding: 2rem 2rem 2rem 2rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .cardandproj{
     background-image: url(./cardbackground.png);
+    background-size: cover;
 }
 
 .projectcontainer{
