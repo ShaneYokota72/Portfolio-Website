@@ -41,11 +41,26 @@ nav ul li a{
     width: 45%;
     margin: 0 auto;
     font-size: 19px;
-    color: #ddcece;
+    /* color: #F1F8FF; */
+    color: black;
 
 }
 
 .intro{
     background-image:url(introsection.png) ;
-    padding: 5rem 2rem 2rem 2rem;
+    padding: 2rem;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.introsentence{
+    text-align: center;
+    color: white;
+}
+
+.aboutme{
+    background-image: url(Aboutmebackground.jpeg);
+    padding: 2rem 2rem 2rem 2rem;
 }
