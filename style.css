@@ -312,6 +312,10 @@ nav ul li a:hover{
 #backupicon:hover{
     color: aquamarine;
 }
+
+#ShaneLogo{
+    margin: 1rem;
+}
 /* For the Project Cards to not extend over the screen */
 
 @media only screen and (max-width: 1200px){
@@ -321,7 +325,8 @@ nav ul li a:hover{
     .navbarall{
         flex-direction: column;
         height: auto;
-        margin-top: -142px;;
+        margin-top: -197px;
+        padding-top: 1.5rem;
     }
 }
 
@@ -329,6 +334,7 @@ nav ul li a:hover{
 @media only screen and (max-width: 1050px){
     .projectcontainer{
         display: block;
+        padding: 0rem;
     }
     #ChromakeyProj{
         margin: 1rem auto;
@@ -348,5 +354,31 @@ nav ul li a:hover{
     
     #ImageGallery{
         margin: 1rem auto
+    }
+
+    .shaneresume{
+        width: 80vw;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .aboutme{
+       padding: 5rem 0; 
+    }   
+    .shaneresume{
+        width: 100vw;
+        height: 500px;
+    }
+    .resumeerrortext{
+        width: 70vw;
+    }
+    .navbarall{
+        margin-top: -190px;
+    }
+    #menulist{
+        margin-bottom: -10px;
+    }
+    .projectcontainer{
+        padding: 0rem;
     }
 }
