@@ -233,6 +233,7 @@ footer{
     }
 }
 /* For the Project Cards to not extend over the screen */
+
 @media only screen and (max-width: 900px){
     .projectcontainer{
         display: block;

@@ -19,6 +19,12 @@ html {
     justify-content: center;
 }
 
+#navbarsocialicons{
+    display: flex;
+    justify-content: flex-end;
+    width: 300px;  
+}
+
 #sociallist{
     display: flex;
     justify-content: center;
@@ -74,6 +80,7 @@ nav ul li a:hover{
 .introsentence{
     text-align: center;
     color: white;
+    text-shadow: 0 0 20px rgb(0 0 0);
 }
 
 .aboutme{
@@ -298,6 +305,19 @@ nav ul li a:hover{
     color: aquamarine;
 }
 /* For the Project Cards to not extend over the screen */
+
+@media only screen and (max-width: 1200px){
+    #navbarsocialicons{
+        width: auto;
+    }
+    .navbarall{
+        flex-direction: column;
+        height: auto;
+        margin-top: -142px;;
+    }
+}
+
+
 @media only screen and (max-width: 900px){
     .projectcontainer{
         display: block;
