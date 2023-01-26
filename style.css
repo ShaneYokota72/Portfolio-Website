@@ -1,181 +1,133 @@
-.navbar>.container{
+html {
+    scroll-behavior: smooth;
+}
+
+.navbarall{
     display: flex;
-    flex-wrap: inherit;
+    justify-content: space-between;
+    padding: 0 3rem;
     align-items: center;
-    justify-content: center;
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+    height: 60px;
+    margin-top: -60px;
+    background-color: transparent;
 }
-
-.topnav{
-    margin-top: 12px;
-}
-
 #menulist{
     display: flex;
     justify-content: center;
-    margin-top: 5px;
+}
+
+#navbarsocialicons{
+    display: flex;
+    justify-content: flex-end;
+    width: 300px;  
 }
 
 #sociallist{
     display: flex;
     justify-content: center;
-    padding: 0px;;
+    padding: 0px;
 }
 
-nav ul li{
+.topnavli{
+    list-style: none;
+    margin: 0 10px 0 10px;
+}
+
+.sociallistli{
     list-style: none;
     margin: 0 10px 0 10px;
 }
 
 nav ul li a{
     text-decoration: none;
-    border: solid;
-    border-radius: 5px;
-    padding: 3px;
     line-height: 16px;
-    font-size: 16px;
-    color: black;
+    font-size: 20px;
+    color: #F1F8FF;
 }
 
 nav ul li a:hover{
+    text-decoration: underline;
+    text-decoration-color: aquamarine;
+    transition: text-decoration 0.5s ease-out;
+    transition-delay: 0.2s;
+}
+
+.socialicon:hover{
     color: aquamarine;
-}
-
-
-.card{
-    margin: 0 auto auto auto;
-    font-family: 'Trebuchet MS', sans-serif;
-}
-
-.card-head{
-    border-top-left-radius: 0.5rem/* calc(0.375rem - 1px) */;
-    border-top-right-radius: 0.5rem/* calc(0.375rem - 1px) */;
-    overflow: hidden;
-    width: 18 rem;
-    height: 10.5rem;
-    border-radius: 0.5 rem;
-}
-
-.card-body{
-    padding: 1rem 1rem;
-    flex: 1 1 auto;
-    border-bottom-left-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-    border: 2px Solid rgba(0, 0, 0, 0.075);
-}
-
-.card-text{
-    color: #212529;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-}
-
-.card-button{
-    color: white;
-    text-decoration: none;
-    background-color: #0d6efd;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-}
-
-.card-button:hover{
-    background-color: #0b5ed7;
-}
-
-.card-img-top{
-    border-top-left-radius: calc(0.375rem - 1px);
-    border-top-right-radius: calc(0.375rem - 1px);
-    transform: scale(1);
-    transition: transform 0.4s ease;
-}
-
-.card-img-top:hover{
-    transform: scale(1.1);
 }
 
 .description{
     width: 45%;
     margin: 0 auto;
     font-size: 19px;
-}
-
-.shaneresume{
-    display: block;
-    margin: 0 auto;
-}
-
-.footericons{
-    margin: 0 10px;
-}
-
-.footercontainer{
-    display: grid;
-    width: 100%;
-    height: auto;
-
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-}
-
-.links{
-    grid-column-start: 1;
-    grid-column-end: 2;
-    margin: auto 0;
-    align-items: center;
-}
-
-.contactsinfos{
-    grid-column-start: 2;
-    grid-column-end: 3;
-    margin: auto 0;
-}
-
-.links ul li a{
-    text-decoration: none;
-    border: solid;
-    border-radius: 5px;
-    line-height: 16px;
-    font-size: 15px;
+    margin-bottom: 2rem;
     color: black;
+
 }
 
-.links ul li a:hover{
-    color: aquamarine;
-}
-
-.footerobj{
-    margin-left: 90px;
-    margin-top: 3px;
-}
-
-.emailform{
-    text-align: center;
-}
-
-.footersocialconnect{
-    padding: 1.5rem;
+.intro{
+    background-image:url(introsection.png) ;
+    padding: 2rem;
+    height: 100vh;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
 }
 
-footer{
-    margin-top: 1.5rem;
-    font-family: 'Trebuchet MS', sans-serif;
+.introsentence{
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 20px rgb(0 0 0);
 }
 
-.continfo{
-    text-decoration: none;
-    color: #990000;
-    line-height: 1rem;
+.aboutme{
+    background-image: url(Aboutmebackground.jpeg);
+    background-size: cover;
+    padding: 2rem 2rem 2rem 2rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-.continfo:hover{
-    text-decoration: underline;
+
+#aboutmetext{
+    font-family: sans-serif;
+    text-align: center;
+    color: #5e6951;
+    font-size: 30px;
+}
+
+.cardandproj{
+    background-image: url(./cardbackground.png);
+    background-size: cover;
+}
+
+#projectstext{
+    font-family: sans-serif;
+    text-align: center;
+    color: #d8d8d8;
+    padding-top: 6.5rem;
+    margin-top: 0px;
+    font-size: 30px;
+}
+
+#porjectstexth5{
+    text-align: center;
+    color: #d8d8d8;
+    font-size: 20px;
+    margin-top: 0px;
+    font-family: sans-serif; 
 }
 
 .projectcontainer{
+    padding: 0rem 5rem 10rem 5rem;
+
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 20px 1fr;
+    grid-template-rows: 1fr 3rem 1fr;
 
     width: auto;
     margin: 0 auto;
@@ -221,20 +173,160 @@ footer{
     grid-row-end: 4;
     margin: 0 auto;
 }
-/* For the Nav Bar to be always centered */
-@media only screen and (max-width: 800px){
-    #menulist{
-        flex-direction: column;
-        align-items: center;
-    }
-    nav ul li{
-        list-style: none;
-        margin: 15px 10px 0 10px;
-    }
+
+.card{
+    margin: 0 auto auto auto;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+.card-head{
+    border-top-left-radius: 0.5rem/* calc(0.375rem - 1px) */;
+    border-top-right-radius: 0.5rem/* calc(0.375rem - 1px) */;
+    overflow: hidden;
+    width: 18 rem;
+    height: 10.5rem;
+    border-radius: 0.5 rem;
+}
+
+.card-body{
+    padding: 1rem 1rem;
+    flex: 1 1 auto;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border: 2px Solid rgba(0, 0, 0, 0.075);
+    background-color: #e9e9e9;
+}
+
+.card-text{
+    color: #212529;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.card-button{
+    color: white;
+    text-decoration: none;
+    background-color: #0d6efd;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.card-button:hover{
+    background-color: #0b5ed7;
+}
+
+.card-img-top{
+    height: 10.5rem;
+    border-top-left-radius: calc(0.375rem - 1px);
+    border-top-right-radius: calc(0.375rem - 1px);
+    transform: scale(1);
+    transition: transform 0.4s ease;
+}
+
+.card-img-top:hover{
+    transform: scale(1.1);
+}
+
+.shaneresume{
+    display: block;
+    margin: 0 auto;
+    height: 1090px;
+}
+
+#resumetext{
+    font-family: sans-serif;
+    text-align: center;
+    color: #5e6951;
+    font-size: 30px;
+}
+
+.resumesec{
+    padding: 6.5rem 0;
+}
+
+#Contactmetext{
+    text-align: center;
+    font-family: sans-serif;
+    text-align: center;
+    color: #FBFCFE;
+    padding-top: 2rem;
+    font-size: 30px;
+}
+
+.footertxt{
+    /* font-family: sans-serif; */
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    font-weight: 540;
+}
+
+.contactsec{
+    background-image: url(./contactbackground.png);
+    background-size: cover;
+    padding: 4.5rem 2rem 2rem 2rem;
+}
+
+#socialiconcontectme{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#socialiconcontectme a{
+    color: black;
+}
+
+#socialiconcontectme a:hover {
+    color: aquamarine;
+}
+
+#emailandnumber{
+    text-decoration: none;
+    text-decoration-color: aquamarine;
+    color: #F1F8FF;
+}
+#emailandnumber:hover{
+    text-decoration: underline;
+    text-decoration-color: aquamarine !important; 
+    transition: text-decoration 0.35s ease-out;
+    transition-delay: 0.05s;
+}
+.footertxt a:hover{
+    text-decoration: underline;
+    text-decoration-color: aquamarine !important; 
+    transition: text-decoration 0.35s ease-out;
+    transition-delay: 0.05s;
+}
+
+#backuptop{
+    display: flex;
+    margin: 0 0 0 auto;
+}
+
+#backupicon{
+    color:black;
+}
+
+#backupicon:hover{
+    color: aquamarine;
 }
 /* For the Project Cards to not extend over the screen */
 
-@media only screen and (max-width: 900px){
+@media only screen and (max-width: 1200px){
+    #navbarsocialicons{
+        width: auto;
+    }
+    .navbarall{
+        flex-direction: column;
+        height: auto;
+        margin-top: -142px;;
+    }
+}
+
+
+@media only screen and (max-width: 1050px){
     .projectcontainer{
         display: block;
     }
@@ -256,14 +348,5 @@ footer{
     
     #ImageGallery{
         margin: 1rem auto
-    }
-}
-/* For the Logo to always be centered */
-@media only screen and (max-width: 550px){
-    #ShaneLogo{
-        width: 80vw;
-    }
-    .footerobj{
-        margin-left: 0;
     }
 }
