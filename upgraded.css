@@ -63,7 +63,7 @@ nav ul li a:hover{
     width: 45%;
     margin: 0 auto;
     font-size: 19px;
-    /* color: #F1F8FF; */
+    margin-bottom: 2rem;
     color: black;
 
 }
@@ -112,6 +112,14 @@ nav ul li a:hover{
     padding-top: 6.5rem;
     margin-top: 0px;
     font-size: 30px;
+}
+
+#porjectstexth5{
+    text-align: center;
+    color: #d8d8d8;
+    font-size: 20px;
+    margin-top: 0px;
+    font-family: sans-serif; 
 }
 
 .projectcontainer{
@@ -318,7 +326,7 @@ nav ul li a:hover{
 }
 
 
-@media only screen and (max-width: 900px){
+@media only screen and (max-width: 1050px){
     .projectcontainer{
         display: block;
     }
