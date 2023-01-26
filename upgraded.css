@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .navbarall{
     display: flex;
     justify-content: space-between;
@@ -74,6 +78,7 @@ nav ul li a:hover{
 
 .aboutme{
     background-image: url(Aboutmebackground.jpeg);
+    background-size: cover;
     padding: 2rem 2rem 2rem 2rem;
     height: 100vh;
     display: flex;
@@ -96,8 +101,9 @@ nav ul li a:hover{
 #projectstext{
     font-family: sans-serif;
     text-align: center;
-    color: #81c72b;
+    color: #d8d8d8;
     padding-top: 6.5rem;
+    margin-top: 0px;
     font-size: 30px;
 }
 
@@ -224,7 +230,73 @@ nav ul li a:hover{
     padding: 6.5rem 0;
 }
 
+#Contactmetext{
+    text-align: center;
+    font-family: sans-serif;
+    text-align: center;
+    color: #FBFCFE;
+    padding-top: 2rem;
+    font-size: 30px;
+}
 
+.footertxt{
+    /* font-family: sans-serif; */
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    font-weight: 540;
+}
+
+.contactsec{
+    background-image: url(./contactbackground.png);
+    background-size: cover;
+    padding: 4.5rem 2rem 2rem 2rem;
+}
+
+#socialiconcontectme{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#socialiconcontectme a{
+    color: black;
+}
+
+#socialiconcontectme a:hover {
+    color: aquamarine;
+}
+
+#emailandnumber{
+    text-decoration: none;
+    text-decoration-color: aquamarine;
+    color: #F1F8FF;
+}
+#emailandnumber:hover{
+    text-decoration: underline;
+    text-decoration-color: aquamarine !important; 
+    transition: text-decoration 0.35s ease-out;
+    transition-delay: 0.05s;
+}
+.footertxt a:hover{
+    text-decoration: underline;
+    text-decoration-color: aquamarine !important; 
+    transition: text-decoration 0.35s ease-out;
+    transition-delay: 0.05s;
+}
+
+#backuptop{
+    display: flex;
+    margin: 0 0 0 auto;
+}
+
+#backupicon{
+    color:black;
+}
+
+#backupicon:hover{
+    color: aquamarine;
+}
 /* For the Project Cards to not extend over the screen */
 @media only screen and (max-width: 900px){
     .projectcontainer{
