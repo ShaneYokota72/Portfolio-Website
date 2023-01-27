@@ -382,3 +382,11 @@ nav ul li a:hover{
         padding: 0rem;
     }
 }
+@media only screen and (max-width: 400px){
+    .intro{
+        padding-top: 100px;
+    }
+    .aboutme{
+        padding: 12rem 0;
+    }
+}
