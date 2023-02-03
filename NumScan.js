@@ -1,9 +1,11 @@
 // get image array from HTML
-// use put the info into 2d array
-// scan the image and make a Digit Blob
+// put the info(image rgb value) into 2d array
+// scan the image and make a Digit Blob(each number will be a small digit blob)
 // sort the Digit Blobs
+// classify each digit blobs and add it to the returning string
+// output the result to the screen
 
-// Classiry the Digit 
+
 function transformArray(array, width) {
     const matrix = new Array(array.length / width).fill().map(() => new Array(width));
     let row = 0;
@@ -18,7 +20,7 @@ function transformArray(array, width) {
     }
     return matrix;
 }
-
+// locatin class. to make (row,col) calculation and useability easier
 class Location{
     row;
     col;
@@ -27,7 +29,7 @@ class Location{
         this.col = c;
     }
 }
-
+// Classify the Digit // Classify the Digit 
 class DigitBlob{
     constructor(img/* 2D array */, upperleft/* Location Object */, height, width){
         this.#img_ = img;
@@ -351,6 +353,9 @@ class DigitBlob{
     #botHline;
     #righttopblack;
 }
+
+// NumImg class Numimg will have DigitBlob as a variable inside it.
+// NumImg is a class that contains all the data of about the img
 class NumImg{
     constructor(array, height, width){
         // instead of filename, I will be just taking an 2D array
