@@ -12,6 +12,7 @@ html {
 
     position: sticky;
     top: 0px;
+    z-index: 100;
 }
 #menulist{
     display: flex;
@@ -75,7 +76,7 @@ nav ul li a:hover{
     align-items: center;
     justify-content: center;
 
-    margin-top: -67px;
+    margin-top: -70px;
 }
 
 .introsentence{
