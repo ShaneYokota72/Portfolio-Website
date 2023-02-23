@@ -8,6 +8,10 @@ html {
     padding: 0 3rem;
     align-items: center;
     background-color: transparent;
+
+
+    position: sticky;
+    top: 0px;
 }
 #menulist{
     display: flex;
@@ -70,6 +74,8 @@ nav ul li a:hover{
     display: flex;
     align-items: center;
     justify-content: center;
+
+    margin-top: -67px;
 }
 
 .introsentence{
